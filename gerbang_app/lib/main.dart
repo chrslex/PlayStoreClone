@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gerbang_app/screens/loginScreen.dart';
+import 'package:gerbang_app/screens/registerScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,10 +10,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Login User',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen()
+      home: RegisterScreen()
     );
   }
 }
