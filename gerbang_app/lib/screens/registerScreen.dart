@@ -21,7 +21,7 @@ Widget buildEmail() {
               BoxShadow(
                   color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
             ]),
-        height: 60,
+        height: 50,
         child: const TextField(
           keyboardType: TextInputType.emailAddress,
           style: TextStyle(color: Colors.black87),
@@ -54,7 +54,7 @@ Widget buildName() {
               BoxShadow(
                   color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
             ]),
-        height: 60,
+        height: 50,
         child: const TextField(
           style: TextStyle(color: Colors.black87),
           decoration: InputDecoration(
@@ -86,7 +86,7 @@ Widget buildPassword() {
               BoxShadow(
                   color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
             ]),
-        height: 60,
+        height: 50,
         child: const TextField(
           obscureText: true,
           style: TextStyle(color: Colors.black87),
@@ -119,7 +119,7 @@ Widget buildConfirmPassword() {
               BoxShadow(
                   color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
             ]),
-        height: 60,
+        height: 50,
         child: const TextField(
           obscureText: true,
           style: TextStyle(color: Colors.black87),
