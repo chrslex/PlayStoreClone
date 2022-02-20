@@ -1,83 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gerbang_app/api/models/TestModel.dart';
+import 'package:gerbang_app/widget/auth/email_widget.dart';
+import 'package:gerbang_app/widget/auth/password_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
-}
-
-Widget buildEmail() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text('Email',
-          style: TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-      SizedBox(height: 10),
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-            ]),
-        height: 60,
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          style: TextStyle(color: Colors.black87),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 12),
-            prefixIcon: Icon(
-              Icons.email,
-              color: Color(0xff5ac18e),
-            ),
-            hintText: 'Enter your email',
-            hintStyle: TextStyle(color: Colors.black54),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
-Widget buildPassword() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text('Password',
-          style: TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-      SizedBox(height: 10),
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-            ]),
-        height: 60,
-        child: TextField(
-          obscureText: true,
-          style: TextStyle(color: Colors.black87),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 12),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: Color(0xff5ac18e),
-            ),
-            hintText: 'Enter your password',
-            hintStyle: TextStyle(color: Colors.black54),
-          ),
-        ),
-      )
-    ],
-  );
 }
 
 Widget buildForgotPassBtn() {
@@ -93,22 +22,35 @@ Widget buildForgotPassBtn() {
   );
 }
 
-Widget buildLoginBtn() {
+Widget buildLoginBtn(String email, String password) {
   return Container(
     padding: EdgeInsets.symmetric(vertical: 25),
     width: double.infinity,
     child: RaisedButton(
       elevation: 5,
-      onPressed: () => print("Login Pressed"),
+      onPressed: () {
+        print("LOGIN");
+        print("Email : $email");
+        print("Password : $password");
+        HttpStateful.connectAPI("Afif Akromi", "Frontend Developer")
+            .then((value) => {print(value.job)});
+      },
       padding: EdgeInsets.all(15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: Colors.white,
-      child: Text('LOGIN', style: TextStyle(color: Color(0xff5ac18e), fontSize: 18, fontWeight: FontWeight.bold)),
+      child: Text('LOGIN',
+          style: TextStyle(
+              color: Color(0xff5ac18e),
+              fontSize: 18,
+              fontWeight: FontWeight.bold)),
     ),
   );
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,19 +88,44 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 50,
                         ),
-                        buildEmail(),
+                        EmailWidget(controller: emailController),
                         SizedBox(
                           height: 20,
                         ),
-                        buildPassword(),
+                        PasswordWIdget(controller: passwordController),
                         SizedBox(
                           height: 10,
                         ),
                         buildForgotPassBtn(),
-                        buildLoginBtn()
-                      ],
+                        Container(
+    padding: EdgeInsets.symmetric(vertical: 25),
+    width: double.infinity,
+    child: RaisedButton(
+      elevation: 5,
+      onPressed: () {
+        print("LOGIN");
+        print("Email : " + emailController.text);
+        print("Password : " + passwordController.text);
+      },
+      padding: EdgeInsets.all(15),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      color: Colors.white,
+      child: Text('LOGIN',
+          style: TextStyle(
+              color: Color(0xff5ac18e),
+              fontSize: 18,
+              fontWeight: FontWeight.bold)),
+    ),
+  )
+                     ],
                     ),
                   ))
             ]))));
+
+            
   }
+
+ 
+
+
 }
