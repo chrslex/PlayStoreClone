@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gerbang_app/api/models/TestModel.dart';
 import 'package:gerbang_app/widget/auth/email_widget.dart';
 import 'package:gerbang_app/widget/auth/password_widget.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -14,35 +15,10 @@ Widget buildForgotPassBtn() {
     alignment: Alignment.centerRight,
     child: FlatButton(
       onPressed: () => print('Forgot Password Button Pressed'),
-      padding: EdgeInsets.only(right: 0),
+      padding: const EdgeInsets.only(right: 0),
       child: Text('Forgot Password ?',
           style: TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
-    ),
-  );
-}
-
-Widget buildLoginBtn(String email, String password) {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 25),
-    width: double.infinity,
-    child: RaisedButton(
-      elevation: 5,
-      onPressed: () {
-        print("LOGIN");
-        print("Email : $email");
-        print("Password : $password");
-        HttpStateful.connectAPI("Afif Akromi", "Frontend Developer")
-            .then((value) => {print(value.job)});
-      },
-      padding: EdgeInsets.all(15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: Colors.white,
-      child: Text('LOGIN',
-          style: TextStyle(
-              color: Color(0xff5ac18e),
-              fontSize: 18,
-              fontWeight: FontWeight.bold)),
     ),
   );
 }
@@ -61,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                   height: double.infinity,
                   width: double.infinity,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -72,60 +48,58 @@ class _LoginScreenState extends State<LoginScreen> {
                         Color(0xff5ac18e),
                       ])),
                   child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 120),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 120),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Sign In',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 40,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         EmailWidget(controller: emailController),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         PasswordWIdget(controller: passwordController),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         buildForgotPassBtn(),
                         Container(
-    padding: EdgeInsets.symmetric(vertical: 25),
-    width: double.infinity,
-    child: RaisedButton(
-      elevation: 5,
-      onPressed: () {
-        print("LOGIN");
-        print("Email : " + emailController.text);
-        print("Password : " + passwordController.text);
-      },
-      padding: EdgeInsets.all(15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: Colors.white,
-      child: Text('LOGIN',
-          style: TextStyle(
-              color: Color(0xff5ac18e),
-              fontSize: 18,
-              fontWeight: FontWeight.bold)),
-    ),
-  )
-                     ],
+                          padding: const EdgeInsets.symmetric(vertical: 25),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(15),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                primary: Colors.white,
+                                shadowColor: Colors.amber,
+                                onPrimary: Colors.black87,
+                                onSurface: Colors.amber),
+                            onPressed: () {
+                              print("LOGIN");
+                              print("Email : " + emailController.text);
+                              print("Password : " + passwordController.text);
+                            },
+                            child: const Text('LOGIN',
+                                style: TextStyle(
+                                    color: Color(0xff5ac18e),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        )
+                      ],
                     ),
                   ))
             ]))));
-
-            
   }
-
- 
-
-
 }
