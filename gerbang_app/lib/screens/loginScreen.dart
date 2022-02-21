@@ -1,114 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gerbang_app/api/models/LoginModel.dart';
+import 'package:gerbang_app/widget/auth/email_widget.dart';
+import 'package:gerbang_app/widget/auth/password_widget.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
-}
-
-Widget buildEmail() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text('Email',
-          style: TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-      SizedBox(height: 10),
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-            ]),
-        height: 60,
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          style: TextStyle(color: Colors.black87),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 12),
-            prefixIcon: Icon(
-              Icons.email,
-              color: Color(0xff5ac18e),
-            ),
-            hintText: 'Enter your email',
-            hintStyle: TextStyle(color: Colors.black54),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
-Widget buildPassword() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text('Password',
-          style: TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-      SizedBox(height: 10),
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-            ]),
-        height: 60,
-        child: TextField(
-          obscureText: true,
-          style: TextStyle(color: Colors.black87),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 12),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: Color(0xff5ac18e),
-            ),
-            hintText: 'Enter your password',
-            hintStyle: TextStyle(color: Colors.black54),
-          ),
-        ),
-      )
-    ],
-  );
 }
 
 Widget buildForgotPassBtn() {
   return Container(
     alignment: Alignment.centerRight,
-    child: FlatButton(
+    child: TextButton(
       onPressed: () => print('Forgot Password Button Pressed'),
-      padding: EdgeInsets.only(right: 0),
-      child: Text('Forgot Password ?',
+      style: TextButton.styleFrom(
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 15)),
+      child: const Text('Forgot Password ?',
           style: TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
     ),
   );
 }
 
-Widget buildLoginBtn() {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 25),
-    width: double.infinity,
-    child: RaisedButton(
-      elevation: 5,
-      onPressed: () => print("Login Pressed"),
-      padding: EdgeInsets.all(15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: Colors.white,
-      child: Text('LOGIN', style: TextStyle(color: Color(0xff5ac18e), fontSize: 18, fontWeight: FontWeight.bold)),
-    ),
-  );
-}
-
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                   height: double.infinity,
                   width: double.infinity,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -130,32 +51,82 @@ class _LoginScreenState extends State<LoginScreen> {
                         Color(0xff5ac18e),
                       ])),
                   child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 120),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 120),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Sign In',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 40,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
-                        buildEmail(),
-                        SizedBox(
+                        EmailWidget(controller: emailController),
+                        const SizedBox(
                           height: 20,
                         ),
-                        buildPassword(),
-                        SizedBox(
+                        PasswordWidget(
+                          controller: passwordController,
+                          placeholder: 'Enter password',
+                        ),
+                        const SizedBox(
                           height: 10,
                         ),
                         buildForgotPassBtn(),
-                        buildLoginBtn()
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 25),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(15),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                primary: Colors.white,
+                                shadowColor: Colors.amber,
+                                onPrimary: Colors.black87,
+                                onSurface: Colors.amber),
+                            onPressed: () {
+                              Login.loginUser(emailController.text,
+                                      passwordController.text)
+                                  .then((value) => {
+                                        if (value.code != 200)
+                                          {
+                                            AwesomeDialog(
+                                                    context: context,
+                                                    animType: AnimType.SCALE,
+                                                    dialogType:
+                                                        DialogType.ERROR,
+                                                    body: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(15),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Invalid Email or Password',
+                                                            style: TextStyle(
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic),
+                                                          ),
+                                                        )),
+                                                    btnOkOnPress: () {},
+                                                    btnOkColor: Colors.red)
+                                                .show()
+                                          }
+                                      });
+                            },
+                            child: const Text('LOGIN',
+                                style: TextStyle(
+                                    color: Color(0xff5ac18e),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        )
                       ],
                     ),
                   ))
