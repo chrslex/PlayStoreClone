@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gerbang_app/api/models/LoginModel.dart';
 import 'package:gerbang_app/widget/auth/email_widget.dart';
 import 'package:gerbang_app/widget/auth/password_widget.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -86,9 +88,33 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPrimary: Colors.black87,
                                 onSurface: Colors.amber),
                             onPressed: () {
-                              print("LOGIN");
-                              print("Email : " + emailController.text);
-                              print("Password : " + passwordController.text);
+                              Login.loginUser(emailController.text,
+                                      passwordController.text)
+                                  .then((value) => {
+                                        if (value.code != 200)
+                                          {
+                                            AwesomeDialog(
+                                                    context: context,
+                                                    animType: AnimType.SCALE,
+                                                    dialogType:
+                                                        DialogType.ERROR,
+                                                    body: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(15),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Invalid Email or Password',
+                                                            style: TextStyle(
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic),
+                                                          ),
+                                                        )),
+                                                    btnOkOnPress: () {},
+                                                    btnOkColor: Colors.red)
+                                                .show()
+                                          }
+                                      });
                             },
                             child: const Text('LOGIN',
                                 style: TextStyle(
