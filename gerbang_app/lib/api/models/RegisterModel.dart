@@ -32,7 +32,6 @@ class Register {
 
     var data = json.decode(result.body);
 
-    print(data);
     if (data["code"] == 201) {
       return Register(
           code: 201,
