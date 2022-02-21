@@ -15,10 +15,11 @@ class LoginScreen extends StatefulWidget {
 Widget buildForgotPassBtn() {
   return Container(
     alignment: Alignment.centerRight,
-    child: FlatButton(
+    child: TextButton(
       onPressed: () => print('Forgot Password Button Pressed'),
-      padding: const EdgeInsets.only(right: 0),
-      child: Text('Forgot Password ?',
+      style: TextButton.styleFrom(
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 15)),
+      child: const Text('Forgot Password ?',
           style: TextStyle(
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
     ),
