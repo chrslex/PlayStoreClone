@@ -71,7 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        PasswordWIdget(controller: passwordController),
+                        PasswordWidget(
+                          controller: passwordController,
+                          placeholder: 'Enter password',
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
