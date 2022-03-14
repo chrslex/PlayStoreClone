@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gerbang_app/api/models/LoginModel.dart';
+import 'package:gerbang_app/profilePage/editProfile.dart';
+import 'package:gerbang_app/profilePage/profilePage.dart';
 import 'package:gerbang_app/screens/loginScreen.dart';
 import 'package:gerbang_app/screens/registerScreen.dart';
 
@@ -14,7 +17,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Login User',
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }

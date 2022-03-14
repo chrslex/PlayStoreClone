@@ -118,6 +118,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     btnOkColor: Colors.red)
                                                 .show()
                                           }
+                                        else
+                                          {
+                                            AwesomeDialog(
+                                                    context: context,
+                                                    animType: AnimType.SCALE,
+                                                    dialogType:
+                                                        DialogType.SUCCES,
+                                                    body: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(15),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Login successfull',
+                                                            style: TextStyle(
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic),
+                                                          ),
+                                                        )),
+                                                    btnOkOnPress: () {},
+                                                    btnOkColor: Colors.green)
+                                                .show()
+                                          }
                                       });
                             },
                             child: const Text('LOGIN',
