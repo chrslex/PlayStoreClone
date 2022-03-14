@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:gerbang_app/api/models/RegisterModel.dart';
 import 'package:gerbang_app/widget/auth/email_widget.dart';
 import 'package:gerbang_app/widget/auth/password_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../change_notifier/navigation.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -145,6 +148,23 @@ Widget buildConfirmPassword() {
   );
 }
 
+Widget buildHaveAccBtn() {
+  return Container(
+      alignment: Alignment.centerRight,
+      child: Consumer<Navigation> (
+        builder: (context, navigation, _) => TextButton(
+          onPressed: () {
+            navigation.setPage = "Login";
+          },
+          style: TextButton.styleFrom(
+              padding: const EdgeInsets.fromLTRB(0, 15, 0, 15)),
+          child: const Text('Already have an account?',
+              style: TextStyle(
+                  color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+        ),
+      )
+  );
+}
 
 Widget buildRegisterBtn() {
   return Container(
@@ -182,12 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [
-                        Color(0x665ac18e),
-                        Color(0x995ac18e),
-                        Color(0xcc5ac18e),
-                        Color(0xff5ac18e),
-                      ])),
+                          colors: [Colors.green, Colors.greenAccent])),
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
@@ -224,6 +239,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: confirmPasswordController,
                           placeholder: 'Enter confirm password',
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        buildHaveAccBtn(),
                         const SizedBox(
                           height: 10,
                         ),
