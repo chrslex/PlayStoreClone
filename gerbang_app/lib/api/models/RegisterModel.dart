@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'const.dart';
 
 class Register {
   final int code;
@@ -17,7 +18,7 @@ class Register {
 
   static Future<Register> registerUser(
       String name, String email, String password, String role) async {
-    Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/signup');
+    Uri url = Uri.parse(route + 'api/v1/auth/signup');
 
     Map jsonRaw = {
       'name': name,

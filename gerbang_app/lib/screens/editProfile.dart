@@ -1,25 +1,35 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../api/models/editProfileModel.dart';
 import '../change_notifier/navigation.dart';
 
 class EditProfileApp extends StatelessWidget {
-  const EditProfileApp({Key? key}) : super(key: key);
+  EditProfileApp({Key? key}) : super(key: key);
+  TextEditingController nameController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
     return Material(
+
       child: SizedBox(
                 width: double.infinity,
                 height: 350.0,
-                child: Center(
+                child: Consumer<Navigation> (
+                    builder: (context, navigation, _) {
+                      nameController.text = navigation.name;
+                      return (
+                          Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       const CircleAvatar(
-                        backgroundImage: AssetImage('build/flutter_assets/images/profile.jpg'),
+                        backgroundImage: AssetImage('build/flutter_assets/build/flutter_assets/images/profile.png'),
                         radius: 50.0,
                       ),
                       TextFormField(
@@ -27,18 +37,16 @@ class EditProfileApp extends StatelessWidget {
                         decoration: const InputDecoration(
                           border: InputBorder.none
                         ),
-                        controller: TextEditingController(
-                            text: "Alice James",
-                        ),
+                        controller: nameController,
                         style: const TextStyle(
                           fontFamily: 'Arial',
                           fontSize: 30.0,
                           color: Colors.black,
                         ),
                       ),
-                      const Text(
-                        "alice@gmail.com",
-                        style: TextStyle(
+                      Text(
+                        navigation.email,
+                        style: const TextStyle(
                           fontFamily: 'Arial',
                           fontSize: 14.0,
                           color: Colors.black,
@@ -47,8 +55,7 @@ class EditProfileApp extends StatelessWidget {
                       const SizedBox(
                         height: 5.0,
                       ),
-                      Consumer<Navigation> (
-                          builder: (context, navigation, _) => Row(
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -98,27 +105,61 @@ class EditProfileApp extends StatelessWidget {
                                         )
                                     ),
                                     onPressed: () {
-                                      navigation.setPage = "Profile Page";
-                                    },
-                                    child: const Text(
-                                      "Save",
-                                      style: TextStyle(
-                                        fontFamily: 'Arial',
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    )
+                                      EditProfile.setProfile(
+                                          navigation.id,
+                                          nameController.text,
+                                          navigation.token,
+                                      ).then((value) =>
+                                            {
+                                              if (value.code != 200)
+                                                {
+                                                  AwesomeDialog(
+                                                      context: context,
+                                                      animType: AnimType.SCALE,
+                                                      dialogType:
+                                                      DialogType.ERROR,
+                                                      body: const Padding(
+                                                          padding:
+                                                          EdgeInsets.all(15),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Fail to save name',
+                                                              style: TextStyle(
+                                                                  fontStyle:
+                                                                  FontStyle
+                                                                      .italic),
+                                                            ),
+                                                          )),
+                                                      btnOkOnPress: () {},
+                                                      btnOkColor: Colors.red)
+                                                      .show()
+                                                }
+                                                else
+                                                  {
+                                                    navigation.setName = value.name,
+                                                    navigation.setPage = "Profile Page"
+                                                  }
+                                            });
+                                      },
+                                      child: const Text(
+                                          "Save",
+                                          style: TextStyle(
+                                            fontFamily: 'Arial',
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        )
                                 )
-                              ]
-                          )
-
-                      )
-
+                              ],
+                            ),
                     ],
-                  ),
-                ),
-              )
+                  )
+                )
+                );
+            }
+          )
+      )
     );
   }
 }
