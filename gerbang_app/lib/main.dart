@@ -57,19 +57,16 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       'Index 2: Books',
       style: optionStyle,
     ),
-    ChangeNotifierProvider<Navigation>(
-        create: (context) => Navigation(),
-        child: Consumer<Navigation>(
-            builder: (context, navigation, _) {
-              if (navigation.page == "Edit Profile"){
-                return EditProfileApp();
-              }
-              else {
-                return ProfileApp();
-              }
-            }
-        )
-    ),
+    Consumer<Navigation>(
+        builder: (context, navigation, _) {
+          if (navigation.page == "Edit Profile"){
+            return EditProfileApp();
+          }
+          else {
+            return ProfileApp();
+          }
+        }
+    )
   ];
 
   void _onItemTapped(int index) {

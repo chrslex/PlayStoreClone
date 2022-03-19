@@ -11,7 +11,8 @@ class ProfileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: SizedBox(
+      child: Consumer<Navigation> (
+        builder: (context, navigation, _) => SizedBox(
         width: double.infinity,
         height: 350.0,
         child: Center(
@@ -20,14 +21,14 @@ class ProfileApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const CircleAvatar(
-                backgroundImage: AssetImage('build/flutter_assets/images/profile.jpg'),
+                backgroundImage: AssetImage('build/flutter_assets/build/flutter_assets/images/profile.png'),
                 radius: 75.0,
               ),
               const SizedBox(
                 height: 10.0,
               ),
-              const Text(
-                "Alice James",
+              Text(
+                navigation.name,
                 style: TextStyle(
                   fontFamily: 'Arial',
                   fontSize: 26.0,
@@ -37,8 +38,8 @@ class ProfileApp extends StatelessWidget {
               const SizedBox(
                 height: 5.0,
               ),
-              const Text(
-                "alice@gmail.com",
+              Text(
+                navigation.email  ,
                 style: TextStyle(
                   fontFamily: 'Arial',
                   fontSize: 14.0,
@@ -48,8 +49,7 @@ class ProfileApp extends StatelessWidget {
               const SizedBox(
                 height: 5.0,
               ),
-              Consumer<Navigation> (
-                  builder: (context, navigation, _) => OutlinedButton(
+              OutlinedButton(
                       style: ButtonStyle(
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
@@ -77,11 +77,11 @@ class ProfileApp extends StatelessWidget {
                         ),
                       )
                   )
-              )
             ],
           ),
         ),
       )
+    )
     );
   }
 }

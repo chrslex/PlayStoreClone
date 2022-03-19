@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gerbang_app/api/models/LoginModel.dart';
@@ -25,7 +27,7 @@ Widget buildForgotPassBtn() {
         },
         style: TextButton.styleFrom(
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15)),
-        child: const Text('Forgot password?',
+        child: const Text("Don't have an account?",
             style: TextStyle(
                 color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
       ),
@@ -125,8 +127,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                               btnOkColor: Colors.red)
                                               .show()
                                         }
+                                      else {
+                                        navigation.setId = value.id,
+                                        navigation.setName = value.name,
+                                        navigation.setEmail = value.email,
+                                        navigation.setToken = value.token,
+                                        navigation.setPage = "Profile Page"
+                                      }
                                     });
-                                    navigation.setPage = "Profile Page";
                                   },
                                   child: const Text('LOGIN',
                                       style: TextStyle(
