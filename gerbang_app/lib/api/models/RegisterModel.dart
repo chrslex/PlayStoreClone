@@ -4,24 +4,21 @@ import 'const.dart';
 
 class Register {
   final int code;
-  final String name;
   final String email;
   final String password;
   final String role;
 
   Register(
       {required this.code,
-      required this.name,
       required this.password,
       required this.email,
       required this.role});
 
   static Future<Register> registerUser(
-      String name, String email, String password, String role) async {
+      String email, String password, String role) async {
     Uri url = Uri.parse(route + 'api/v1/auth/signup');
 
     Map jsonRaw = {
-      'name': name,
       'email': email,
       'password': password,
       'role': role
@@ -38,7 +35,6 @@ class Register {
       return Register(
           code: 201,
           email: data["data"]["Email"],
-          name: "name",
           password: data["data"]["Password"],
           role: data["data"]["Role"]);
     }
@@ -46,7 +42,6 @@ class Register {
     return Register(
         code: 409,
         email: "notfound@gmail.com",
-        name: "notfound",
         password: "password",
         role: "role");
   }
