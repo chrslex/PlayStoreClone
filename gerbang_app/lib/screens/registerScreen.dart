@@ -50,38 +50,6 @@ Widget buildEmail() {
   );
 }
 
-Widget buildName() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
-              BoxShadow(
-                  color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-            ]),
-        height: 50,
-        child: const TextField(
-          style: TextStyle(color: Colors.black87),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 12),
-            prefixIcon: Icon(
-              Icons.account_circle,
-              color: Color(0xff5ac18e),
-            ),
-            hintText: 'Name',
-            hintStyle: TextStyle(color: Colors.black54),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
 Widget buildPassword() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,10 +192,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        buildName(),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         PasswordWidget(
                           controller: passwordController,
                           placeholder: 'Enter password',
@@ -249,13 +213,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 25),
                           width: double.infinity,
-                          child: ElevatedButton(
+                          child: Consumer<Navigation> (
+                            builder: (context, navigation, _) => ElevatedButton(
                             onPressed: () => {
                               if (confirmPasswordController.text ==
                                   passwordController.text)
                                 {
                                   Register.registerUser(
-                                          nameController.text,
                                           emailController.text,
                                           passwordController.text,
                                           'user')
@@ -282,7 +246,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                                         .italic),
                                                           ),
                                                         )),
-                                                    btnOkOnPress: () {},
+                                                    btnOkOnPress: () {
+                                                      navigation.setPage = "Login";
+                                                    },
                                                     btnOkColor:
                                                         value.code == 201
                                                             ? Colors.green
@@ -322,6 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     color: Color(0xff5ac18e),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold)),
+                            )
                           ),
                         ),
                       ],
