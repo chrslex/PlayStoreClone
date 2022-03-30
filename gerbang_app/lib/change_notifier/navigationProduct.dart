@@ -1,16 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-class Navigation with ChangeNotifier {
+class ProductNavProvider with ChangeNotifier {
   String _page = "Login";
   String _id = "id";
   String _name = "name";
   String _email = "email";
   String _token = "token";
-  String _productName = "PRODUCT NAME";
-  String _productCover = "a";
-  int _productID = 1;
-  int _productSize = 1;
-
 
   String get page => _page;
   set setPage(String page) {
@@ -41,29 +36,4 @@ class Navigation with ChangeNotifier {
     _token = token;
     notifyListeners();
   }
-
-  int get productID => _productID;
-  set productID(int id) {
-    _productID = id;
-    notifyListeners();
-  }
-
-  String get productName => _productName;
-  set productName(String name){
-    _productName = name;
-    notifyListeners();
-  }
-
-  int get productSize => _productSize;
-  set productSize(int size) {
-    _productSize = size;
-    notifyListeners();
-  }
-
-  String get productCover => _productCover;
-  set productCover(String cover) {
-    _productCover = cover;
-    notifyListeners();
-  }
-
 }

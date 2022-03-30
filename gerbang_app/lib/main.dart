@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gerbang_app/api/models/bookModel.dart';
+import 'package:gerbang_app/screens/bookList.dart';
+import 'package:gerbang_app/screens/productDetails.dart';
 import 'package:provider/provider.dart';
 import 'package:gerbang_app/screens/editProfile.dart';
 import 'package:gerbang_app/screens/profilePage.dart';
+import 'package:gerbang_app/screens/appList.dart';
 import 'package:gerbang_app/screens/loginScreen.dart';
 import 'package:gerbang_app/screens/registerScreen.dart';
 import 'change_notifier/navigation.dart';
@@ -17,23 +21,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ChangeNotifierProvider<Navigation>(
-        create: (context) => Navigation(),
-        child: Consumer<Navigation>(
-          builder: (context, navigation, _) {
-            if (navigation.page == "Login") {
-              return LoginScreen();
-            }
-            else if (navigation.page == "Register") {
-              return RegisterScreen();
-            }
-            else {
-              return MyHomePage();
-            }
-          }
-        )
-      )
-    );
+        home: ChangeNotifierProvider<Navigation>(
+            create: (context) => Navigation(),
+            child: Consumer<Navigation>(
+                builder: (context, navigation, _) {
+              if (navigation.page == "Login") {
+                return LoginScreen();
+              } else if (navigation.page == "Register") {
+                return RegisterScreen();
+              } else {
+                return MyHomePage();
+              }
+            })));
   }
 }
 
@@ -41,32 +40,36 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyStatefulWidgetState();
+  State<MyHomePage> createState() =>
+      _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyHomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      'Index 1: Apps',
-      style: optionStyle,
-    ),
-    const Text(
-      'Index 2: Books',
-      style: optionStyle,
-    ),
-    Consumer<Navigation>(
-        builder: (context, navigation, _) {
-          if (navigation.page == "Edit Profile"){
-            return EditProfileApp();
-          }
-          else {
-            return ProfileApp();
-          }
-        }
-    )
+    Consumer<Navigation>(builder: (context, navigation, _) {
+      if (navigation.page == "Product Detail") {
+        return ProductDetail();
+      } else {
+        return AppList();
+      }
+    }),
+    Consumer<Navigation>(builder: (context, navigation, _) {
+      if (navigation.page == "Product Detail") {
+        return ProductDetail();
+      } else {
+        return BookList();
+      }
+    }),
+    Consumer<Navigation>(builder: (context, navigation, _) {
+      if (navigation.page == "Edit Profile") {
+        return EditProfileApp();
+      } else {
+        return ProfileApp();
+      }
+    })
   ];
 
   void _onItemTapped(int index) {
@@ -82,7 +85,8 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
         title: const Text('Gerbang'),
         backgroundColor: Colors.green,
       ),
-      body: Center(
+      body: Container(
+        margin: EdgeInsets.only(top: 10),
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -107,4 +111,3 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
     );
   }
 }
-
