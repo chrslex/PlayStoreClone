@@ -16,7 +16,7 @@ class _BookListState extends State<BookList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
+      height: 400.0,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
           color: Color(0xffeeeeee),
@@ -49,32 +49,48 @@ class _BookListState extends State<BookList> {
                     fontSize: 12.0),
               ),
             ),
-            Container(
-              height: 200,
-              child: FutureBuilder(
-                  future: BookWidget.getAllBooks(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Book>> snapshot) {
-                    if (snapshot.hasData) {
-                      List<Book>? book = snapshot.data;
-                      return ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: book!
-                            .map((Book b) => ProductWidget(
-                                imgAsset: b.Cover,
-                                title: b.Title,
-                                size: b.Total_pages.toString()))
-                            .toList(),
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }),
-            ),
+            for (int i = 1; i < 3; i++)
+              FutureContainer(page: i)
           ],
         )),
       ),
+    );
+  }
+}
+
+class FutureContainer extends StatelessWidget {
+  final int page;
+  const FutureContainer({
+    Key? key,
+    required this.page,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      child: FutureBuilder(
+          future: BookWidget.getAllBooks(page),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<Book>> snapshot) {
+            if (snapshot.hasData) {
+              List<Book>? book = snapshot.data;
+              return ListView(
+                scrollDirection: Axis.horizontal,
+                children: book!
+                    .map((Book b) => ProductWidget(
+                          imgAsset: b.Cover,
+                          title: b.Title,
+                          size: b.Total_pages.toString(),
+                          type: "book",
+                        ))
+                    .toList(),
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }

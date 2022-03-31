@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/api/models/bookModel.dart';
 import 'package:gerbang_app/screens/bookList.dart';
+import 'package:gerbang_app/screens/experimentalBookList.dart';
 import 'package:gerbang_app/screens/productDetails.dart';
+import 'package:gerbang_app/widget/appBar.dart';
 import 'package:provider/provider.dart';
 import 'package:gerbang_app/screens/editProfile.dart';
 import 'package:gerbang_app/screens/profilePage.dart';
@@ -50,17 +52,17 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     Consumer<Navigation>(builder: (context, navigation, _) {
-      if (navigation.page == "Product Detail") {
+      if (navigation.page == "Product Detail App") {
         return ProductDetail();
       } else {
         return AppList();
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {
-      if (navigation.page == "Product Detail") {
+      if (navigation.page == "Product Detail Book") {
         return ProductDetail();
       } else {
-        return BookList();
+        return EBookList();
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {
@@ -81,9 +83,23 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gerbang'),
-        backgroundColor: Colors.green,
+      appBar: PreferredSize(
+        preferredSize:
+            Size(MediaQuery.of(context).size.width, 140),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PreferredSize(
+                preferredSize: Size(
+                    MediaQuery.of(context).size.width, 140),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppBarGerbang(),
+                  ],
+                ),
+              ),
+            ]),
       ),
       body: Container(
         margin: EdgeInsets.only(top: 10),

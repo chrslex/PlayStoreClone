@@ -8,6 +8,7 @@ class Navigation with ChangeNotifier {
   String _token = "token";
   String _productName = "PRODUCT NAME";
   String _productCover = "a";
+  String _productType = "product";
   int _productID = 1;
   int _productSize = 1;
 
@@ -63,6 +64,12 @@ class Navigation with ChangeNotifier {
   String get productCover => _productCover;
   set productCover(String cover) {
     _productCover = cover;
+    notifyListeners();
+  }
+
+  String get productType => _productType;
+  set productType(String type) {
+    _productType = type;
     notifyListeners();
   }
 

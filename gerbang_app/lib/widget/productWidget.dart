@@ -9,11 +9,13 @@ class ProductWidget extends StatelessWidget {
   final String imgAsset;
   final String title;
   final String size;
+  final String type;
 
   ProductWidget({Key? key, 
     required this.imgAsset,
     required this.title,
     required this.size,
+    required this.type,
     }
   );
   @override
@@ -25,7 +27,14 @@ class ProductWidget extends StatelessWidget {
           navigation.productName = title;
           navigation.productCover = imgAsset;
           navigation.productSize = int.parse(size);
-          navigation.setPage = "Product Detail";
+          navigation.productType = type;
+
+          if(navigation.productType == "book"){
+            navigation.setPage = "Product Detail Book";
+          }
+          else{
+            navigation.setPage = "Product Detail App";
+          }
         },
         child: Container(
           width: 150,
