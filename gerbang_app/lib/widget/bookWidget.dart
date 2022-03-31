@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:gerbang_app/api/models/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:gerbang_app/api/models/bookModel.dart';
 
 class BookWidget {
-  static Future<List<Book>> getAllBooks() async {
+  static Future<List<Book>> getAllBooks(int page) async {
     final response = await http.get(Uri.parse(
-        "http://10.0.2.2:8000/api/v1/product/books?page=1&page_size=5"));
+        route +"api/v1/product/books?page=$page&page_size=5"));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.

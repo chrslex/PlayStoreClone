@@ -60,9 +60,11 @@ class _AppListState extends State<AppList> {
                         scrollDirection: Axis.vertical,
                         children: book!
                             .map((App b) => ProductWidget(
-                                imgAsset: b.Icon,
-                                title: b.Title,
-                                size: b.Size))
+                                  imgAsset: b.Icon,
+                                  title: b.Title,
+                                  size: b.Size,
+                                  type: "app",
+                                ))
                             .toList(),
                       );
                     }
