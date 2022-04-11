@@ -51,7 +51,11 @@ class _AppListState extends State<AppList> {
             Container(
               height: 200,
               child: FutureBuilder(
+<<<<<<< HEAD
+                  future: AppWidget.getAllApps(1),
+=======
                   future: AppWidget.getAllApps(),
+>>>>>>> 11492885c365be25fb630a3cd329d9e8b0d29ee8
                   builder: (BuildContext context,
                       AsyncSnapshot<List<App>> snapshot) {
                     if (snapshot.hasData) {

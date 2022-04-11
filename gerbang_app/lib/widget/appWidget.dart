@@ -7,9 +7,15 @@ import 'package:gerbang_app/api/models/appModel.dart';
 import 'package:gerbang_app/api/models/const.dart';
 
 class AppWidget {
+<<<<<<< HEAD
+  static Future<List<App>> getAllApps(int page) async {
+    final response = await http.get(Uri.parse(
+        route + "api/v1/product/apps?page=$page&page_size=5"));
+=======
   static Future<List<App>> getAllApps() async {
     final response = await http.get(Uri.parse(
         route + "api/v1/product/apps?page=1&page_size=5"));
+>>>>>>> 11492885c365be25fb630a3cd329d9e8b0d29ee8
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
