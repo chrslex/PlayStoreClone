@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/api/models/bookModel.dart';
 import 'package:gerbang_app/screens/bookList.dart';
-<<<<<<< HEAD
 import 'package:gerbang_app/screens/experimentalAppList.dart';
 import 'package:gerbang_app/screens/experimentalBookList.dart';
 import 'package:gerbang_app/screens/exploreAllProducts.dart';
-=======
-import 'package:gerbang_app/screens/experimentalBookList.dart';
->>>>>>> 11492885c365be25fb630a3cd329d9e8b0d29ee8
 import 'package:gerbang_app/screens/productDetails.dart';
 import 'package:gerbang_app/widget/appBar.dart';
 import 'package:provider/provider.dart';
@@ -60,28 +56,22 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
     Consumer<Navigation>(builder: (context, navigation, _) {
       if (navigation.page == "Product Detail App") {
         return ProductDetail();
-<<<<<<< HEAD
       } 
+      else if(navigation.page == "Explore Apps"){
+        return ExploreApps();
+      }
       else {
         return EAppList();
-=======
-      } else {
-        return AppList();
->>>>>>> 11492885c365be25fb630a3cd329d9e8b0d29ee8
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {
       if (navigation.page == "Product Detail Book") {
         return ProductDetail();
-<<<<<<< HEAD
       } 
       else if (navigation.page == "Explore Books") {
         return ExploreBooks();
       }
       else {
-=======
-      } else {
->>>>>>> 11492885c365be25fb630a3cd329d9e8b0d29ee8
         return EBookList();
       }
     }),

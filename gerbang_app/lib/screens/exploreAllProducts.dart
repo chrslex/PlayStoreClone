@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gerbang_app/api/models/appModel.dart';
+import 'package:gerbang_app/widget/appWidget.dart';
 import 'package:gerbang_app/widget/bookWidget.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -59,6 +61,68 @@ class ExploreBooksState extends State<ExploreBooks> {
                 title: data[position].Title, 
                 size: data[position].Total_pages.toString(), 
                 type: "book",);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ExploreApps extends StatefulWidget {
+  static String tag = '/PSGameDetailsScreen';
+
+  ExploreApps({Key? key}) : super(key: key);
+
+  @override
+  ExploreAppsState createState() => ExploreAppsState();
+}
+
+class ExploreAppsState extends State<ExploreApps> {
+  List<App> data = [];
+  int currentLength = 0;
+  int page = 1;
+  final int increment = 5;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    _loadMore();
+    super.initState();
+  }
+
+  Future<void> _loadMore() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await AppWidget.getAllApps(page);
+    page += 1;
+    data.addAll(response);
+    setState(() {
+      isLoading = false;
+      currentLength = data.length;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Explore All Products",
+              style: boldTextStyle()),
+        ),
+        body: LazyLoadScrollView(
+          onEndOfPage: () => _loadMore(),
+          child: ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, position) {
+              return ProductWidget(
+                imgAsset: data[position].Icon,
+                title: data[position].Title,
+                size: data[position].Size,
+                type: "app",
+              );
             },
           ),
         ),

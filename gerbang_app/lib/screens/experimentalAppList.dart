@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gerbang_app/api/models/appModel.dart';
 import 'package:gerbang_app/widget/appWidget.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
+import '../change_notifier/navigation.dart';
 import '../widget/productWidget.dart';
 
 class EAppList extends StatefulWidget {
@@ -45,45 +47,50 @@ class IndividualAppList extends StatelessWidget {
           AsyncSnapshot<List<App>> snapshot) {
         if (snapshot.hasData) {
           List<App>? book = snapshot.data;
-          return Column(children: [
-            Container(
-              child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    16.height,
-                    InkWell(
-                      onTap: () {},
-                      child: Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Apps Cat 1",
-                            style: boldTextStyle(size: 18),
-                          ),
-                          Icon(Icons.arrow_forward_rounded),
-                        ],
-                      ).paddingOnly(left: 16, right: 16),
-                    ),
-                    16.height,
-                    SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                          left: 8, right: 8),
-                      child: Row(
-                          children: book!.map((App b) {
-                        return ProductWidget(
-                          imgAsset: b.Icon,
-                          title: b.Title,
-                          size: b.Size.toString(),
-                          type: "app",
-                        );
-                      }).toList()),
-                      scrollDirection: Axis.horizontal,
-                    )
-                  ]),
-            ),
-          ]).paddingBottom(16);
+          return Consumer<Navigation>(
+            builder: (context, navigation, _) =>
+            Column(children: [
+              Container(
+                child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                    children: [
+                      16.height,
+                      InkWell(
+                        onTap: () {
+                          navigation.setPage = "Explore Apps";
+                        },
+                        child: Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Apps Cat 1",
+                              style: boldTextStyle(size: 18),
+                            ),
+                            Icon(Icons.arrow_forward_rounded),
+                          ],
+                        ).paddingOnly(left: 16, right: 16),
+                      ),
+                      16.height,
+                      SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                            left: 8, right: 8),
+                        child: Row(
+                            children: book!.map((App b) {
+                          return ProductWidget(
+                            imgAsset: b.Icon,
+                            title: b.Title,
+                            size: b.Size.toString(),
+                            type: "app",
+                          );
+                        }).toList()),
+                        scrollDirection: Axis.horizontal,
+                      )
+                    ]),
+              ),
+            ]).paddingBottom(16),
+          );
         }
         return const Center(
           child: CircularProgressIndicator(),
