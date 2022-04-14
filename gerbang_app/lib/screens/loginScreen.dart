@@ -131,6 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         navigation.setEmail = value.email,
                                         navigation.setToken = value.token,
                                         navigation.setPage = "Profile Page",
+                                        navigation.selectedIndex = 0,
                                         if (value.name == "") {
                                           navigation.setName = value.email
                                         }

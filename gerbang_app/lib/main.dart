@@ -5,6 +5,7 @@ import 'package:gerbang_app/screens/experimentalAppList.dart';
 import 'package:gerbang_app/screens/experimentalBookList.dart';
 import 'package:gerbang_app/screens/exploreAllProducts.dart';
 import 'package:gerbang_app/screens/productDetails.dart';
+import 'package:gerbang_app/screens/searchResult.dart';
 import 'package:gerbang_app/widget/appBar.dart';
 import 'package:provider/provider.dart';
 import 'package:gerbang_app/screens/editProfile.dart';
@@ -60,7 +61,9 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       else if (navigation.page == "Explore Apps") {
         return ExploreApps();
       } 
-      
+      else if (navigation.page == "Search Apps") {
+        return SearchApps();
+      }      
       else {
         return EAppList();
       }
@@ -71,7 +74,10 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } 
       else if (navigation.page == "Explore Books") {
         return ExploreBooks();
-      } 
+      }
+      else if (navigation.page == "Search Books") {
+        return SearchBooks();
+      }
       else {
         return EBookList();
       }
@@ -79,17 +85,18 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
     Consumer<Navigation>(builder: (context, navigation, _) {
       if (navigation.page == "Edit Profile") {
         return EditProfileApp();
-      } else {
+      }
+      else if (navigation.page == "Search Apps") {
+        return SearchApps();
+      }
+      else if (navigation.page == "Search Books") {
+        return SearchBooks();
+      }        
+      else {
         return ProfileApp();
       }
     })
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   void _appBarStatus(bool show){
 
@@ -146,7 +153,12 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
                 ],
                 currentIndex: _selectedIndex,
                 selectedItemColor: Colors.green,
-                onTap: _onItemTapped,
+                onTap: (int index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                  navigation.selectedIndex = index;
+                },
               ),
             ));
   }

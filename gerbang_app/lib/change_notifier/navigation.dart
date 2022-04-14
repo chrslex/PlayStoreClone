@@ -13,6 +13,7 @@ class Navigation with ChangeNotifier {
   int? _productID = 1;
   int? _productSize = 1;
   bool _showAppBar = true;
+  int? _selectedIndex = -1;
 
 
   String get page => _page;
@@ -87,4 +88,9 @@ class Navigation with ChangeNotifier {
     notifyListeners();
   }
 
+  int? get selectedIndex => _selectedIndex;
+  set selectedIndex(int? num){
+    _selectedIndex = num;
+    notifyListeners();
+  }
 }
