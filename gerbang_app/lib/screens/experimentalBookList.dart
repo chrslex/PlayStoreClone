@@ -4,7 +4,7 @@ import 'package:gerbang_app/screens/exploreAllProducts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
-import '../api/models/bookModel.dart';
+import '../model/bookModel.dart';
 import '../widget/bookWidget.dart';
 import '../widget/productWidget.dart';
 
@@ -59,8 +59,9 @@ class IndividualBookList extends StatelessWidget {
                       16.height,
                       InkWell(
                         onTap: () {
+                          navigation.setShowAppBar = false;
                           navigation.setPage = "Explore Books";
-                          },
+                        },
                         child: Row(
                           mainAxisAlignment:
                               MainAxisAlignment
@@ -87,6 +88,7 @@ class IndividualBookList extends StatelessWidget {
                             title: b.Title,
                             size: b.Total_pages.toString(),
                             type: "book",
+                            description: b.Description,
                           );
                         }).toList()),
                         scrollDirection: Axis.horizontal,

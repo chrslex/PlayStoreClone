@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:gerbang_app/api/models/appModel.dart';
+import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/widget/appWidget.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
 import 'package:gerbang_app/widget/bookWidget.dart';
@@ -64,6 +64,7 @@ class _AppListState extends State<AppList> {
                                   title: b.Title,
                                   size: b.Size,
                                   type: "app",
+                                  description: b.Description,
                                 ))
                             .toList(),
                       );

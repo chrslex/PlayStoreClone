@@ -6,11 +6,13 @@ class Navigation with ChangeNotifier {
   String _name = "name";
   String _email = "email";
   String _token = "token";
-  String _productName = "PRODUCT NAME";
-  String _productCover = "a";
-  String _productType = "product";
-  int _productID = 1;
-  int _productSize = 1;
+  String? _productName = "PRODUCT NAME";
+  String? _productCover = "a";
+  String? _productType = "product";
+  String? _productDescription = "";
+  int? _productID = 1;
+  int? _productSize = 1;
+  bool _showAppBar = true;
 
 
   String get page => _page;
@@ -43,33 +45,45 @@ class Navigation with ChangeNotifier {
     notifyListeners();
   }
 
-  int get productID => _productID;
-  set productID(int id) {
+  int? get productID => _productID;
+  set productID(int? id) {
     _productID = id;
     notifyListeners();
   }
 
-  String get productName => _productName;
-  set productName(String name){
+  String? get productName => _productName;
+  set productName(String? name){
     _productName = name;
     notifyListeners();
   }
 
-  int get productSize => _productSize;
-  set productSize(int size) {
+  int? get productSize => _productSize;
+  set productSize(int? size) {
     _productSize = size;
     notifyListeners();
   }
 
-  String get productCover => _productCover;
-  set productCover(String cover) {
+  String? get productCover => _productCover;
+  set productCover(String? cover) {
     _productCover = cover;
     notifyListeners();
   }
 
-  String get productType => _productType;
-  set productType(String type) {
+  String? get productType => _productType;
+  set productType(String? type) {
     _productType = type;
+    notifyListeners();
+  }
+
+  bool get showAppBar => _showAppBar;
+  set setShowAppBar(bool show) {
+    _showAppBar = show;
+    notifyListeners();
+  }
+
+  String? get productDescription => _productDescription;
+  set productDescription(String? description) {
+    _productDescription = description;
     notifyListeners();
   }
 
