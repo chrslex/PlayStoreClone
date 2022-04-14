@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gerbang_app/api/models/appModel.dart';
+import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/widget/appWidget.dart';
 import 'package:gerbang_app/widget/bookWidget.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
-import '../api/models/bookModel.dart';
+import '../change_notifier/navigation.dart';
+import '../model/bookModel.dart';
 
 class ExploreBooks extends StatefulWidget {
-  static String tag = '/PSGameDetailsScreen';
-
   ExploreBooks({Key? key}) : super(key: key);
 
   @override
@@ -48,6 +48,17 @@ class ExploreBooksState extends State<ExploreBooks> {
     return Center(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color(0xFF01875f),
+          leading: Consumer<Navigation>(
+            builder: (context, navigation, _) => IconButton(
+              icon: const Icon(Icons.arrow_back,
+                  color: Colors.black),
+              onPressed: () {
+                navigation.setShowAppBar = true;
+                navigation.setPage = "App/Book List";
+              },
+            ),
+          ),
           title: Text("Explore All Products",
               style: boldTextStyle()),
         ),
@@ -57,10 +68,12 @@ class ExploreBooksState extends State<ExploreBooks> {
             itemCount: data.length,
             itemBuilder: (context, position) {
               return ProductWidget(
-                imgAsset: data[position].Cover , 
-                title: data[position].Title, 
-                size: data[position].Total_pages.toString(), 
-                type: "book",);
+                imgAsset: data[position].Cover,
+                title: data[position].Title,
+                size: data[position].Total_pages.toString(),
+                type: "book",
+                description: data[position].Description,
+              );
             },
           ),
         ),
@@ -70,8 +83,6 @@ class ExploreBooksState extends State<ExploreBooks> {
 }
 
 class ExploreApps extends StatefulWidget {
-  static String tag = '/PSGameDetailsScreen';
-
   ExploreApps({Key? key}) : super(key: key);
 
   @override
@@ -109,6 +120,17 @@ class ExploreAppsState extends State<ExploreApps> {
     return Center(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color(0xFF01875f),
+          leading: Consumer<Navigation>(
+            builder: (context, navigation, _) => IconButton(
+              icon: const Icon(Icons.arrow_back,
+                  color: Colors.black),
+              onPressed: () {
+                navigation.setShowAppBar = true;
+                navigation.setPage = "App/Book List";
+              },
+            ),
+          ),
           title: Text("Explore All Products",
               style: boldTextStyle()),
         ),
@@ -122,6 +144,7 @@ class ExploreAppsState extends State<ExploreApps> {
                 title: data[position].Title,
                 size: data[position].Size,
                 type: "app",
+                description: data[position].Description,
               );
             },
           ),

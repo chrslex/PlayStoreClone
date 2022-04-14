@@ -6,16 +6,18 @@ import 'package:provider/provider.dart';
 import '../change_notifier/navigation.dart';
 
 class ProductWidget extends StatelessWidget {
-  final String imgAsset;
-  final String title;
-  final String size;
-  final String type;
+  final String? imgAsset;
+  final String? title;
+  final String? size;
+  final String? type;
+  final String? description;
 
   ProductWidget({Key? key, 
     required this.imgAsset,
     required this.title,
     required this.size,
     required this.type,
+    required this.description,
     }
   );
   @override
@@ -26,13 +28,16 @@ class ProductWidget extends StatelessWidget {
         onTap: () {
           navigation.productName = title;
           navigation.productCover = imgAsset;
-          navigation.productSize = int.parse(size);
+          navigation.productSize = int.parse(size!);
           navigation.productType = type;
+          navigation.productDescription = description;
 
           if(navigation.productType == "book"){
+            navigation.setShowAppBar = false;
             navigation.setPage = "Product Detail Book";
           }
           else{
+            navigation.setShowAppBar = false;
             navigation.setPage = "Product Detail App";
           }
         },
@@ -44,7 +49,7 @@ class ProductWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.network(
-                imgAsset,
+                imgAsset!,
                 height: 100.0,
                 width: 100.0,
               ),
@@ -52,7 +57,7 @@ class ProductWidget extends StatelessWidget {
                 padding: EdgeInsets.all(2.0),
               ),
               Text(
-                title,
+                title!,
                 maxLines: 1,
                 style: TextStyle(
                   color: Color.fromRGBO(32, 33, 36, 1),
@@ -64,7 +69,7 @@ class ProductWidget extends StatelessWidget {
                 padding: EdgeInsets.all(2.0),
               ),
               Text(
-                size,
+                size!,
                 maxLines: 1,
                 style: TextStyle(
                     color: Color(0xff5f6368), fontSize: 12.0),

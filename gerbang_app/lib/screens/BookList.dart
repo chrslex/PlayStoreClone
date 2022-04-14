@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
 import 'package:gerbang_app/widget/bookWidget.dart';
 
-import 'package:gerbang_app/api/models/bookModel.dart';
+import 'package:gerbang_app/model/bookModel.dart';
 
 class BookList extends StatefulWidget {
   @override
@@ -83,6 +82,7 @@ class FutureContainer extends StatelessWidget {
                           title: b.Title,
                           size: b.Total_pages.toString(),
                           type: "book",
+                          description: b.Description,
                         ))
                     .toList(),
               );

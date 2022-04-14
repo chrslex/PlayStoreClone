@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:gerbang_app/api/models/appModel.dart';
+import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/api/models/const.dart';
 
 class AppWidget {
@@ -16,19 +16,20 @@ class AppWidget {
       var data = jsonDecode(response.body);
       List<App> l = [];
       for (var d in data["data"]["Items"]) {
+        var subcatJson = d["Subcategories"] as List;
+        List<String> _subcat = subcatJson.map((e) => e as String).toList();
         l.add(App(
           ID: d["ID"],
-          CreatedAt: d["CreatedAt"],
-          UpdatedAt: d["UpdatedAt"],
-          DeletedAt: d["DeletedAt"],
           Title: d["Title"],
           Description: d["Description"],
-          File: d["File"],
-          Subowner: d["Subowner"],
           Developer: d["Developer"],
-          Size: d["Size"],
           Age: d["Age"],
+          Size: d["Size"],
           Icon: d["Icon"],
+          File: d["File"],
+          Pending_status: d["PendingStatus"],
+          DownloadCount: d["DownloadCount"],
+          Subcategories: _subcat,
         ));
       }
       return l;

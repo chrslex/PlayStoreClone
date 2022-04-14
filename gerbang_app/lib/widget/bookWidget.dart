@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:gerbang_app/api/models/const.dart';
 import 'package:http/http.dart' as http;
-import 'package:gerbang_app/api/models/bookModel.dart';
+import 'package:gerbang_app/model/bookModel.dart';
 
 class BookWidget {
   static Future<List<Book>> getAllBooks(int page) async {
@@ -13,21 +13,22 @@ class BookWidget {
       var data = jsonDecode(response.body);
       List<Book> l = [];
       for (var d in data["data"]["Items"]) {
+        var subcatJson = d["subcategories"] as List;
+        List<String> _subcat = subcatJson.map((e) => e as String).toList();
         l.add(Book(
           ID: d["ID"],
-          CreatedAt: d["CreatedAt"],
-          UpdatedAt: d["UpdatedAt"],
-          DeletedAt: d["DeletedAt"],
-          Title: d["Title"],
-          Description: d["Description"],
-          ISBN: d["ISBN"],
-          Author: d["Author"],
-          Publisher: d["Publisher"],
-          Publish_date: d["Publish_date"],
-          Total_pages: d["Total_pages"],
-          Cover: d["Cover"],
-          File: d["File"],
-          Subowner: d["Subowner"],
+          Title: d["title"],
+          Description: d["description"],
+          ISBN: d["isbn"],
+          Author: d["author"],
+          Publisher: d["publisher"],
+          Publish_date: d["publishDate"],
+          Total_pages: d["totalPages"],
+          Cover: d["cover"],
+          File: d["file"],
+          Pending_status: d["pendingStatus"],
+          DownloadCount: d["downloadCount"],
+          Subcategories: _subcat,
         ));
       }
       return l;

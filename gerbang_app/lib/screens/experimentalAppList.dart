@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gerbang_app/api/models/appModel.dart';
+import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/widget/appWidget.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +47,7 @@ class IndividualAppList extends StatelessWidget {
           AsyncSnapshot<List<App>> snapshot) {
         if (snapshot.hasData) {
           List<App>? book = snapshot.data;
+          print(book);
           return Consumer<Navigation>(
             builder: (context, navigation, _) =>
             Column(children: [
@@ -58,6 +59,7 @@ class IndividualAppList extends StatelessWidget {
                       16.height,
                       InkWell(
                         onTap: () {
+                          navigation.setShowAppBar = false;
                           navigation.setPage = "Explore Apps";
                         },
                         child: Row(
@@ -83,6 +85,7 @@ class IndividualAppList extends StatelessWidget {
                             title: b.Title,
                             size: b.Size.toString(),
                             type: "app",
+                            description: b.Description,
                           );
                         }).toList()),
                         scrollDirection: Axis.horizontal,

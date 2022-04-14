@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gerbang_app/api/models/bookModel.dart';
+import 'package:gerbang_app/model/bookModel.dart';
 import 'package:gerbang_app/screens/bookList.dart';
 import 'package:gerbang_app/screens/experimentalAppList.dart';
 import 'package:gerbang_app/screens/experimentalBookList.dart';
@@ -57,9 +57,10 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       if (navigation.page == "Product Detail App") {
         return ProductDetail();
       } 
-      else if(navigation.page == "Explore Apps"){
+      else if (navigation.page == "Explore Apps") {
         return ExploreApps();
-      }
+      } 
+      
       else {
         return EAppList();
       }
@@ -70,7 +71,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } 
       else if (navigation.page == "Explore Books") {
         return ExploreBooks();
-      }
+      } 
       else {
         return EBookList();
       }
@@ -90,50 +91,63 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
     });
   }
 
+  void _appBarStatus(bool show){
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size(MediaQuery.of(context).size.width, 140),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PreferredSize(
-                preferredSize: Size(
-                    MediaQuery.of(context).size.width, 140),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AppBarGerbang(),
-                  ],
-                ),
+    return Consumer<Navigation>(
+        builder: (context, navigation, _) => Scaffold(
+              appBar: navigation.showAppBar
+                  ? PreferredSize(
+                      preferredSize: Size(
+                          MediaQuery.of(context).size.width,
+                          140),
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            PreferredSize(
+                              preferredSize: Size(
+                                  MediaQuery.of(context)
+                                      .size
+                                      .width,
+                                  140),
+                              child: Column(
+                                mainAxisSize:
+                                    MainAxisSize.min,
+                                children: [
+                                  AppBarGerbang(),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    )
+                  : null,
+              body: Container(
+                margin: EdgeInsets.only(top: 10),
+                child: _widgetOptions
+                    .elementAt(_selectedIndex),
               ),
-            ]),
-      ),
-      body: Container(
-        margin: EdgeInsets.only(top: 10),
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.apps),
-            label: 'Apps',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Books',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        onTap: _onItemTapped,
-      ),
-    );
+              bottomNavigationBar: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.apps),
+                    label: 'Apps',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.book),
+                    label: 'Books',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: 'Profile',
+                  ),
+                ],
+                currentIndex: _selectedIndex,
+                selectedItemColor: Colors.green,
+                onTap: _onItemTapped,
+              ),
+            ));
   }
 }
