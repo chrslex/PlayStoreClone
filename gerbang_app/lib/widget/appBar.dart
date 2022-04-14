@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../change_notifier/navigation.dart';
+import 'package:provider/provider.dart';
 
 class AppBarGerbang extends StatefulWidget {
   static String tag = '/AppBarGerbang';
@@ -30,7 +32,9 @@ class AppBarGerbangState extends State<AppBarGerbang> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return 
+    Consumer<Navigation>(builder: (context, navigation, _) 
+    => Container(
       padding: EdgeInsets.only(right: 8),
       alignment: Alignment.topCenter,
       decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 2.0)], borderRadius: BorderRadius.circular(8)),
@@ -45,9 +49,19 @@ class AppBarGerbangState extends State<AppBarGerbang> {
             },
           ),
           8.width,
-          TextFormField(
+          TextFormField( //Search Bar
             showCursor: false,
             decoration: InputDecoration(focusedBorder: InputBorder.none, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, hintText: 'Search for apps & games'),
+            onFieldSubmitted: (String value){
+              if (navigation.selectedIndex == 0){//seach apps
+                navigation.setPage = "Search Apps";
+              }
+              else if (navigation.selectedIndex == 1){ //search books
+                navigation.setPage = "Search Books";
+              }else{//fallback to search apps
+                navigation.setPage = "Search Apps";
+              }
+            },
           ).expand(),
           8.width,
           IconButton(
@@ -62,6 +76,7 @@ class AppBarGerbangState extends State<AppBarGerbang> {
           ),
         ],
       ),
+    )
     );
   }
 }
