@@ -5,6 +5,7 @@ import 'package:gerbang_app/screens/experimentalAppList.dart';
 import 'package:gerbang_app/screens/experimentalBookList.dart';
 import 'package:gerbang_app/screens/exploreAllProducts.dart';
 import 'package:gerbang_app/screens/productDetails.dart';
+import 'package:gerbang_app/screens/profileScreen.dart';
 import 'package:gerbang_app/screens/searchResult.dart';
 import 'package:gerbang_app/widget/appBar.dart';
 import 'package:provider/provider.dart';
@@ -28,14 +29,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         home: ChangeNotifierProvider<Navigation>(
             create: (context) => Navigation(),
-            child: Consumer<Navigation>(
-                builder: (context, navigation, _) {
+            child: Consumer<Navigation>(builder: (context, navigation, _) {
               if (navigation.page == "Login") {
-                return LoginScreen();
+                return const LoginScreen();
               } else if (navigation.page == "Register") {
-                return RegisterScreen();
+                return const RegisterScreen();
               } else {
-                return MyHomePage();
+                return const MyHomePage();
               }
             })));
   }
@@ -45,8 +45,7 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() =>
-      _MyStatefulWidgetState();
+  State<MyHomePage> createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyHomePage> {
@@ -56,51 +55,40 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
   static final List<Widget> _widgetOptions = <Widget>[
     Consumer<Navigation>(builder: (context, navigation, _) {
       if (navigation.page == "Product Detail App") {
-        return ProductDetail();
-      } 
-      else if (navigation.page == "Explore Apps") {
+        return const ProductDetail();
+      } else if (navigation.page == "Explore Apps") {
         return ExploreApps();
-      } 
-      else if (navigation.page == "Search Apps") {
+      } else if (navigation.page == "Search Apps") {
         return SearchApps();
-      }      
-      else {
-        return EAppList();
+      } else {
+        return const EAppList();
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {
       if (navigation.page == "Product Detail Book") {
-        return ProductDetail();
-      } 
-      else if (navigation.page == "Explore Books") {
+        return const ProductDetail();
+      } else if (navigation.page == "Explore Books") {
         return ExploreBooks();
-      }
-      else if (navigation.page == "Search Books") {
+      } else if (navigation.page == "Search Books") {
         return SearchBooks();
-      }
-      else {
-        return EBookList();
+      } else {
+        return const EBookList();
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {
       if (navigation.page == "Edit Profile") {
         return EditProfileApp();
-      }
-      else if (navigation.page == "Search Apps") {
+      } else if (navigation.page == "Search Apps") {
         return SearchApps();
-      }
-      else if (navigation.page == "Search Books") {
+      } else if (navigation.page == "Search Books") {
         return SearchBooks();
-      }        
-      else {
-        return ProfileApp();
+      } else {
+        return const ProfileScreen();
       }
     })
   ];
 
-  void _appBarStatus(bool show){
-
-  }
+  void _appBarStatus(bool show) {}
 
   @override
   Widget build(BuildContext context) {
@@ -108,33 +96,25 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
         builder: (context, navigation, _) => Scaffold(
               appBar: navigation.showAppBar
                   ? PreferredSize(
-                      preferredSize: Size(
-                          MediaQuery.of(context).size.width,
-                          140),
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            PreferredSize(
-                              preferredSize: Size(
-                                  MediaQuery.of(context)
-                                      .size
-                                      .width,
-                                  140),
-                              child: Column(
-                                mainAxisSize:
-                                    MainAxisSize.min,
-                                children: [
-                                  AppBarGerbang(),
-                                ],
-                              ),
-                            ),
-                          ]),
+                      preferredSize:
+                          Size(MediaQuery.of(context).size.width, 140),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        PreferredSize(
+                          preferredSize:
+                              Size(MediaQuery.of(context).size.width, 140),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppBarGerbang(),
+                            ],
+                          ),
+                        ),
+                      ]),
                     )
                   : null,
               body: Container(
-                margin: EdgeInsets.only(top: 10),
-                child: _widgetOptions
-                    .elementAt(_selectedIndex),
+                margin: const EdgeInsets.only(top: 10),
+                child: _widgetOptions.elementAt(_selectedIndex),
               ),
               bottomNavigationBar: BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
