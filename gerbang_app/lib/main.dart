@@ -59,7 +59,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Explore Apps") {
         return ExploreApps();
       } else if (navigation.page == "Search Apps") {
-        return SearchApps();
+        return SearchApps(name:navigation.searchValue!);
       } else {
         return const EAppList();
       }
@@ -70,7 +70,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Explore Books") {
         return ExploreBooks();
       } else if (navigation.page == "Search Books") {
-        return SearchBooks();
+        return SearchBooks(name:navigation.searchValue!);
       } else {
         return const EBookList();
       }
@@ -79,9 +79,9 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       if (navigation.page == "Edit Profile") {
         return EditProfileApp();
       } else if (navigation.page == "Search Apps") {
-        return SearchApps();
+        return SearchApps(name:navigation.searchValue!);
       } else if (navigation.page == "Search Books") {
-        return SearchBooks();
+        return SearchBooks(name:navigation.searchValue!);
       } else {
         return const ProfileScreen();
       }

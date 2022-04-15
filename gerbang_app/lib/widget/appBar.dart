@@ -55,11 +55,14 @@ class AppBarGerbangState extends State<AppBarGerbang> {
             onFieldSubmitted: (String value){
               if (navigation.selectedIndex == 0){//seach apps
                 navigation.setPage = "Search Apps";
+                navigation.searchValue = value;
               }
               else if (navigation.selectedIndex == 1){ //search books
                 navigation.setPage = "Search Books";
+                navigation.searchValue = value;
               }else{//fallback to search apps
                 navigation.setPage = "Search Apps";
+                navigation.searchValue = value;
               }
             },
           ).expand(),

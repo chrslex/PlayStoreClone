@@ -11,7 +11,9 @@ import '../model/bookModel.dart';
 
 
 class SearchBooks extends StatefulWidget {
-  SearchBooks({Key? key}) : super(key: key);
+  final String name;
+
+  SearchBooks({Key? key, required this.name}) : super(key: key);
 
   @override
   SearchBooksState createState() => SearchBooksState();
@@ -23,7 +25,6 @@ class SearchBooksState extends State<SearchBooks>{
   int page = 1;
   final int increment = 5;
   bool isLoading = false;
-  String name = "";
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class SearchBooksState extends State<SearchBooks>{
     setState(() {
       isLoading = true;
     });
-    final response = await BookWidget.getAllBooksByName(page, name);
+    final response = await BookWidget.getAllBooksByName(page, widget.name);
     page += 1;
     data.addAll(response);
     setState(() {
@@ -84,7 +85,9 @@ class SearchBooksState extends State<SearchBooks>{
 }
 
 class SearchApps extends StatefulWidget {
-  SearchApps({Key? key}) : super(key: key);
+  final String name;
+
+  SearchApps({Key? key, required this.name}) : super(key: key);
 
   @override
   SearchAppsState createState() => SearchAppsState();
@@ -96,7 +99,6 @@ class SearchAppsState extends State<SearchApps> {
   int page = 1;
   final int increment = 5;
   bool isLoading = false;
-  String name = "";
 
   @override
   void initState() {
@@ -108,7 +110,7 @@ class SearchAppsState extends State<SearchApps> {
     setState(() {
       isLoading = true;
     });
-    final response = await AppWidget.getAllAppsByName(page, name);
+    final response = await AppWidget.getAllAppsByName(page, widget.name);
     page += 1;
     data.addAll(response);
     setState(() {
