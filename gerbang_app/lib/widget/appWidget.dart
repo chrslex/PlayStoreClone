@@ -15,20 +15,20 @@ class AppWidget {
       // then parse the JSON.
       var data = jsonDecode(response.body);
       List<App> l = [];
-      for (var d in data["data"]["Items"]) {
-        var subcatJson = d["Subcategories"] as List;
+      for (var d in data["data"]["items"]) {
+        var subcatJson = d["subcategories"] as List;
         List<String> _subcat = subcatJson.map((e) => e as String).toList();
         l.add(App(
-          ID: d["ID"],
-          Title: d["Title"],
-          Description: d["Description"],
-          Developer: d["Developer"],
-          Age: d["Age"],
-          Size: d["Size"],
-          Icon: d["Icon"],
-          File: d["File"],
-          Pending_status: d["PendingStatus"],
-          DownloadCount: d["DownloadCount"],
+          ID: d["id"],
+          Title: d["title"],
+          Description: d["description"],
+          Developer: d["developer"],
+          Age: d["age"],
+          Size: d["size"],
+          Icon: d["icon"],
+          File: d["file"],
+          Pending_status: d["pendingStatus"],
+          DownloadCount: d["downloadCount"],
           Subcategories: _subcat,
         ));
       }
@@ -43,26 +43,26 @@ class AppWidget {
   static Future<List<App>> getAllAppsByName(int page, String name) async {
     final response = await http.get(Uri.parse(
         //CHANGE API ROUTE AND PARAMS LATER
-        route + "api/v1/product/apps?page=$page&page_size=5"));
+        route + "api/v1/product/apps?page=$page&page_size=5?search=$name"));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       var data = jsonDecode(response.body);
       List<App> l = [];
-      for (var d in data["data"]["Items"]) {
-        var subcatJson = d["Subcategories"] as List;
+      for (var d in data["data"]["items"]) {
+        var subcatJson = d["subcategories"] as List;
         List<String> _subcat = subcatJson.map((e) => e as String).toList();
         l.add(App(
-          ID: d["ID"],
-          Title: d["Title"],
-          Description: d["Description"],
-          Developer: d["Developer"],
-          Age: d["Age"],
-          Size: d["Size"],
-          Icon: d["Icon"],
-          File: d["File"],
-          Pending_status: d["PendingStatus"],
-          DownloadCount: d["DownloadCount"],
+          ID: d["id"],
+          Title: d["title"],
+          Description: d["description"],
+          Developer: d["developer"],
+          Age: d["age"],
+          Size: d["size"],
+          Icon: d["icon"],
+          File: d["file"],
+          Pending_status: d["pendingStatus"],
+          DownloadCount: d["downloadCount"],
           Subcategories: _subcat,
         ));
       }

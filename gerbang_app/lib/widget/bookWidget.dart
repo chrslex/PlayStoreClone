@@ -12,11 +12,11 @@ class BookWidget {
       // then parse the JSON.
       var data = jsonDecode(response.body);
       List<Book> l = [];
-      for (var d in data["data"]["Items"]) {
+      for (var d in data["data"]["items"]) {
         var subcatJson = d["subcategories"] as List;
         List<String> _subcat = subcatJson.map((e) => e as String).toList();
         l.add(Book(
-          ID: d["ID"],
+          ID: d["id"],
           Title: d["title"],
           Description: d["description"],
           ISBN: d["isbn"],
@@ -42,17 +42,17 @@ class BookWidget {
   static Future<List<Book>> getAllBooksByName(int page, String name) async {
     final response = await http.get(Uri.parse(
         //CHANGE ROUTE AND PARAMS LATER
-        route +"api/v1/product/books?page=$page&page_size=5"));
+        route +"api/v1/product/books?page=$page&page_size=5&?search=$name"));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       var data = jsonDecode(response.body);
       List<Book> l = [];
-      for (var d in data["data"]["Items"]) {
+      for (var d in data["data"]["items"]) {
         var subcatJson = d["subcategories"] as List;
         List<String> _subcat = subcatJson.map((e) => e as String).toList();
         l.add(Book(
-          ID: d["ID"],
+          ID: d["id"],
           Title: d["title"],
           Description: d["description"],
           ISBN: d["isbn"],
