@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gerbang_app/model/bookModel.dart';
-import 'package:gerbang_app/screens/bookList.dart';
 import 'package:gerbang_app/screens/experimentalAppList.dart';
 import 'package:gerbang_app/screens/experimentalBookList.dart';
 import 'package:gerbang_app/screens/exploreAllProducts.dart';
@@ -10,12 +8,9 @@ import 'package:gerbang_app/screens/searchResult.dart';
 import 'package:gerbang_app/widget/appBar.dart';
 import 'package:provider/provider.dart';
 import 'package:gerbang_app/screens/editProfile.dart';
-import 'package:gerbang_app/screens/profilePage.dart';
-import 'package:gerbang_app/screens/appList.dart';
 import 'package:gerbang_app/screens/loginScreen.dart';
 import 'package:gerbang_app/screens/registerScreen.dart';
 import 'change_notifier/navigation.dart';
-import 'widget/navbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,7 +54,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Explore Apps") {
         return ExploreApps();
       } else if (navigation.page == "Search Apps") {
-        return SearchApps(name:navigation.searchValue!);
+        return SearchApps(name: navigation.searchValue!);
       } else {
         return const EAppList();
       }
@@ -70,7 +65,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Explore Books") {
         return ExploreBooks();
       } else if (navigation.page == "Search Books") {
-        return SearchBooks(name:navigation.searchValue!);
+        return SearchBooks(name: navigation.searchValue!);
       } else {
         return const EBookList();
       }
@@ -79,9 +74,9 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       if (navigation.page == "Edit Profile") {
         return EditProfileApp();
       } else if (navigation.page == "Search Apps") {
-        return SearchApps(name:navigation.searchValue!);
+        return SearchApps(name: navigation.searchValue!);
       } else if (navigation.page == "Search Books") {
-        return SearchBooks(name:navigation.searchValue!);
+        return SearchBooks(name: navigation.searchValue!);
       } else {
         return const ProfileScreen();
       }

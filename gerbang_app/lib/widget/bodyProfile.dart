@@ -24,6 +24,7 @@ class BodyProfile extends StatelessWidget {
                 text: 'My Account',
                 press: () {
                   navigation.setPage = "Edit Profile";
+                  navigation.setName = navigation.name;
                 }),
             ProfileMenu(
                 icon: 'assets/svg/logout.svg',
