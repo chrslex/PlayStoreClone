@@ -86,6 +86,8 @@ class IndividualAppList extends StatelessWidget {
                             size: b.Size.toString(),
                             type: "app",
                             description: b.Description,
+                            productID: b.ID,
+                            downloadCount: b.DownloadCount
                           );
                         }).toList()),
                         scrollDirection: Axis.horizontal,

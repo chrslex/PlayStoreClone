@@ -10,11 +10,12 @@ class Navigation with ChangeNotifier {
   String? _productCover = "a";
   String? _productType = "product";
   String? _productDescription = "";
-  int? _productID = 1;
-  int? _productSize = 1;
+  String? _productID = "1";
+  String? _productSize = "";
   bool _showAppBar = true;
   int? _selectedIndex = -1;
   String? _searchValue = "";
+  int? _downloadCount = 0;
 
   String get page => _page;
   set setPage(String page) {
@@ -46,8 +47,8 @@ class Navigation with ChangeNotifier {
     notifyListeners();
   }
 
-  int? get productID => _productID;
-  set productID(int? id) {
+  String? get productID => _productID;
+  set productID(String? id) {
     _productID = id;
     notifyListeners();
   }
@@ -58,8 +59,8 @@ class Navigation with ChangeNotifier {
     notifyListeners();
   }
 
-  int? get productSize => _productSize;
-  set productSize(int? size) {
+  String? get productSize => _productSize;
+  set productSize(String? size) {
     _productSize = size;
     notifyListeners();
   }
@@ -97,6 +98,12 @@ class Navigation with ChangeNotifier {
   String? get searchValue => _searchValue;
   set searchValue(String? value){
     _searchValue = value;
+    notifyListeners();
+  }
+
+  int? get downloadCount => _downloadCount;
+  set setDownloadCount(int? value){
+    _downloadCount = value;
     notifyListeners();
   }
 }

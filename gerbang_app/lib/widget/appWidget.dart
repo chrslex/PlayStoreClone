@@ -36,7 +36,7 @@ class AppWidget {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load apps');
     }
   }
 
@@ -70,7 +70,40 @@ class AppWidget {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load apps');
+    }
+  }
+
+  static Future<App> getAppsById(String id) async {
+    final response = await http
+        .get(Uri.parse(route + "api/v1/product/apps/$id"));
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      var data = jsonDecode(response.body);
+      List<App> l = [];
+      var subcatJson =
+          data["data"]["subcategories"] as List;
+      List<String> _subcat =
+          subcatJson.map((e) => e as String).toList();
+      l.add(App(
+        ID: data["data"]["id"],
+        Title: data["data"]["title"],
+        Description: data["data"]["description"],
+        Developer: data["data"]["developer"],
+        Age: data["data"]["age"],
+        Size: data["data"]["size"],
+        Icon: data["data"]["icon"],
+        File: data["data"]["file"],
+        Pending_status: data["data"]["pendingStatus"],
+        DownloadCount: data["data"]["downloadCount"],
+        Subcategories: _subcat,
+      ));
+      return l[0];
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load app');
     }
   }
 }

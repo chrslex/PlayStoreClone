@@ -75,6 +75,8 @@ class SearchBooksState extends State<SearchBooks>{
                 size: data[position].Total_pages.toString(),
                 type: "book",
                 description: data[position].Description,
+                productID: data[position].ID,
+                downloadCount: data[position].DownloadCount,
               );
             },
           ),
@@ -149,6 +151,8 @@ class SearchAppsState extends State<SearchApps> {
                 size: data[position].Size,
                 type: "app",
                 description: data[position].Description,
+                productID: data[position].ID,
+                downloadCount: data[position].DownloadCount,
               );
             },
           ),

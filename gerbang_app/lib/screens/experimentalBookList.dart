@@ -89,6 +89,8 @@ class IndividualBookList extends StatelessWidget {
                             size: b.Total_pages.toString(),
                             type: "book",
                             description: b.Description,
+                            productID: b.ID,
+                            downloadCount: b.DownloadCount
                           );
                         }).toList()),
                         scrollDirection: Axis.horizontal,

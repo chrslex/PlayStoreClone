@@ -11,6 +11,8 @@ class ProductWidget extends StatelessWidget {
   final String? size;
   final String? type;
   final String? description;
+  final String? productID;
+  final int? downloadCount;
 
   ProductWidget({Key? key, 
     required this.imgAsset,
@@ -18,6 +20,8 @@ class ProductWidget extends StatelessWidget {
     required this.size,
     required this.type,
     required this.description,
+    required this.productID,
+    required this.downloadCount,
     }
   );
   @override
@@ -26,11 +30,13 @@ class ProductWidget extends StatelessWidget {
       builder : (context,navigation,_) => 
       InkWell(
         onTap: () {
+          navigation.productID = productID;
           navigation.productName = title;
           navigation.productCover = imgAsset;
-          navigation.productSize = int.parse(size!);
+          navigation.productSize = type == "book" ? size!.toString() : size!;
           navigation.productType = type;
           navigation.productDescription = description;
+          navigation.setDownloadCount = downloadCount;
 
           if(navigation.productType == "book"){
             navigation.setShowAppBar = false;
