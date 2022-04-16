@@ -1,11 +1,16 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/change_notifier/navigation.dart';
+import 'package:gerbang_app/model/appModel.dart';
+import 'package:gerbang_app/model/bookModel.dart';
 import 'package:gerbang_app/utils/mockReviewList.dart';
+import 'package:gerbang_app/utils/saveFiles.dart';
+import 'package:gerbang_app/widget/appWidget.dart';
+import 'package:gerbang_app/widget/bookWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:share_plus/share_plus.dart';
-
+import 'package:sqflite/sqflite.dart';
 import '../utils/widgetUtils.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -17,13 +22,25 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  String? productID;
+  String? productType;
+  bool isInstall = false;
+  bool visibleItem = false;
+  bool iconSelect = false;
   @override
   void initState() {
     super.initState();
     init();
   }
 
-  init() async {}
+  init() async {
+    productID =
+        Provider.of<Navigation>(context, listen: false)
+            .productID;
+    productType = Provider.of<Navigation>(context, listen: false).productType;
+    isInstall = productType == "book" ? await InstalledBooksAndAppsDatabase.instance
+        .checkBookExist(productID!) : await InstalledBooksAndAppsDatabase.instance.checkAppExist(productID!);
+  }
 
   @override
   void dispose() {
@@ -38,27 +55,39 @@ class _ProductDetailState extends State<ProductDetail> {
 
   @override
   Widget build(BuildContext context) {
-    bool isInstall = false;
-    bool visibleItem = false;
-    bool iconSelect = false;
     var randomNumber = Random();
 
     List<Review> reviewList = getReviewList();
 
     Widget installButton() {
-      return Container(
-        decoration: boxDecoration(
-            bgColor: Color(0xFF01875f), radius: 8),
-        width: context.height(),
-        height: 35,
-        child: Center(
-            child: Text('Install',
-                style:
-                    primaryTextStyle(color: Colors.white))),
-      ).onTap(() {
-        isInstall = true;
-        setState(() {});
-      });
+      return Consumer<Navigation>(
+        builder: (context, navigation, _) => Container(
+          decoration: boxDecoration(
+              bgColor: Color(0xFF01875f), radius: 8),
+          width: context.height(),
+          height: 35,
+          child: Center(
+              child: Text('Install',
+                  style: primaryTextStyle(
+                      color: Colors.white))),
+        ).onTap(() async {
+          if(navigation.productType == "book"){
+            Book response = await BookWidget.getBooksById(
+                navigation.productID!);
+            await InstalledBooksAndAppsDatabase.instance
+                .createBook(response);
+            isInstall = true;
+            setState(() {});
+          }
+          else{
+            App response = await AppWidget.getAppsById(navigation.productID!);
+            await InstalledBooksAndAppsDatabase.instance.createApp(response);
+            isInstall = true;
+            setState(() {});
+          }
+          
+        }),
+      );
     }
 
     Widget unInstallButton() {
@@ -93,7 +122,9 @@ class _ProductDetailState extends State<ProductDetail> {
                 .expand(flex: 4),
           ],
         ),
-      ).paddingOnly(left: 18, right: 18).onTap(() {
+      ).paddingOnly(left: 18, right: 18).onTap(() async {
+        await InstalledBooksAndAppsDatabase.instance.deleteApp(productID!);
+        await InstalledBooksAndAppsDatabase.instance.deleteBook(productID!);
         setState(() {
           isInstall = false;
         });
@@ -295,10 +326,22 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
               ),
               32.height,
-              isInstall
-                  ? unInstallButton()
-                  : installButton()
-                      .paddingOnly(left: 16, right: 16),
+              FutureBuilder<bool>(
+                  future: navigation.productType == "book" ? InstalledBooksAndAppsDatabase
+                      .instance
+                      .checkBookExist(productID!) : InstalledBooksAndAppsDatabase.instance.checkAppExist(productID!),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<bool> snapshot) {
+                    if (snapshot.hasData) {
+                      return snapshot.data!
+                          ? unInstallButton()
+                          : installButton().paddingOnly(
+                              left: 16, right: 16);
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
               24.height,
               GestureDetector(
                 onTap: () {

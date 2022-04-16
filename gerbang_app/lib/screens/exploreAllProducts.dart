@@ -73,6 +73,8 @@ class ExploreBooksState extends State<ExploreBooks> {
                 size: data[position].Total_pages.toString(),
                 type: "book",
                 description: data[position].Description,
+                productID: data[position].ID,
+                downloadCount: data[position].DownloadCount,
               );
             },
           ),
@@ -145,6 +147,8 @@ class ExploreAppsState extends State<ExploreApps> {
                 size: data[position].Size,
                 type: "app",
                 description: data[position].Description,
+                productID: data[position].ID,
+                downloadCount: data[position].DownloadCount,
               );
             },
           ),

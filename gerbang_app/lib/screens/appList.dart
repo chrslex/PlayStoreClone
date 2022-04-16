@@ -65,6 +65,8 @@ class _AppListState extends State<AppList> {
                                   size: b.Size,
                                   type: "app",
                                   description: b.Description,
+                                  productID: b.ID,
+                                  downloadCount: b.DownloadCount,
                                 ))
                             .toList(),
                       );
