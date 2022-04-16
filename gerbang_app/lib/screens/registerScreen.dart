@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -151,7 +149,7 @@ Widget buildConfirmPassword() {
 Widget buildHaveAccBtn() {
   return Container(
       alignment: Alignment.centerRight,
-      child: Consumer<Navigation> (
+      child: Consumer<Navigation>(
         builder: (context, navigation, _) => TextButton(
           onPressed: () {
             navigation.setPage = "Login";
@@ -160,10 +158,11 @@ Widget buildHaveAccBtn() {
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 15)),
           child: const Text('Already have an account?',
               style: TextStyle(
-                  color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500)),
         ),
-      )
-  );
+      ));
 }
 
 Widget buildRegisterBtn() {
@@ -173,10 +172,14 @@ Widget buildRegisterBtn() {
     child: RaisedButton(
       elevation: 5,
       onPressed: () => print(""),
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: Colors.white,
-      child: const Text('Register', style: TextStyle(color: Color(0xff5ac18e), fontSize: 18, fontWeight: FontWeight.bold)),
+      child: const Text('Register',
+          style: TextStyle(
+              color: Color(0xff5ac18e),
+              fontSize: 18,
+              fontWeight: FontWeight.bold)),
     ),
   );
 }
@@ -254,41 +257,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               if (confirmPasswordController.text ==
                                   passwordController.text)
                                 {
-                                  Register.registerUser(
-                                          nameController.text,
-                                          emailController.text,
-                                          passwordController.text,
-                                          'user')
-                                      .then((value) => {
-                                            AwesomeDialog(
-                                                    context: context,
-                                                    animType: AnimType.SCALE,
-                                                    dialogType:
-                                                        value.code == 201
+                                  if (!RegExp(
+                                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                      .hasMatch(emailController.text))
+                                    {
+                                      AwesomeDialog(
+                                              context: context,
+                                              animType: AnimType.SCALE,
+                                              dialogType: DialogType.ERROR,
+                                              body: const Padding(
+                                                  padding: EdgeInsets.all(15),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Email not valid',
+                                                      style: TextStyle(
+                                                          fontStyle:
+                                                              FontStyle.italic),
+                                                    ),
+                                                  )),
+                                              btnOkOnPress: () {},
+                                              btnOkColor: Colors.red)
+                                          .show()
+                                    }
+                                  else
+                                    {
+                                      Register.registerUser(
+                                              nameController.text,
+                                              emailController.text,
+                                              passwordController.text,
+                                              'user')
+                                          .then((value) => {
+                                                AwesomeDialog(
+                                                        context: context,
+                                                        animType:
+                                                            AnimType.SCALE,
+                                                        dialogType: value
+                                                                    .code ==
+                                                                201
                                                             ? DialogType.SUCCES
                                                             : DialogType.ERROR,
-                                                    body: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        child: Center(
-                                                          child: Text(
+                                                        body: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Center(
+                                                              child: Text(
+                                                                value.code ==
+                                                                        201
+                                                                    ? 'Successfully registered user'
+                                                                    : 'Email already registered',
+                                                                style: const TextStyle(
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic),
+                                                              ),
+                                                            )),
+                                                        btnOkOnPress: () {},
+                                                        btnOkColor:
                                                             value.code == 201
-                                                                ? 'Successfully registered user'
-                                                                : 'Email already registered',
-                                                            style: const TextStyle(
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic),
-                                                          ),
-                                                        )),
-                                                    btnOkOnPress: () {},
-                                                    btnOkColor:
-                                                        value.code == 201
-                                                            ? Colors.green
-                                                            : Colors.red)
-                                                .show()
-                                          })
+                                                                ? Colors.green
+                                                                : Colors.red)
+                                                    .show()
+                                              })
+                                    }
                                 }
                               else
                                 {

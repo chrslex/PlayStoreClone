@@ -35,7 +35,7 @@ class EditProfileApp extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Text(nameController.text,
+                Text(navigation.name,
                     style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 20))),
@@ -113,7 +113,9 @@ class EditProfileApp extends StatelessWidget {
                               nameController.text,
                               navigation.token,
                             ).then((value) => {
-                                  if (value.code != 200)
+                                  if (!RegExp(
+                                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                      .hasMatch(nameController.text))
                                     {
                                       AwesomeDialog(
                                               context: context,
@@ -123,7 +125,7 @@ class EditProfileApp extends StatelessWidget {
                                                   padding: EdgeInsets.all(15),
                                                   child: Center(
                                                     child: Text(
-                                                      'Fail to save name',
+                                                      'Email not valid',
                                                       style: TextStyle(
                                                           fontStyle:
                                                               FontStyle.italic),
@@ -135,34 +137,60 @@ class EditProfileApp extends StatelessWidget {
                                     }
                                   else
                                     {
-                                      AwesomeDialog(
-                                              context: context,
-                                              animType: AnimType.SCALE,
-                                              dialogType: DialogType.SUCCES,
-                                              body: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(15),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Success to edit name',
-                                                      style: GoogleFonts.poppins(
-                                                          textStyle:
-                                                              const TextStyle(
+                                      if (value.code != 200)
+                                        {
+                                          AwesomeDialog(
+                                                  context: context,
+                                                  animType: AnimType.SCALE,
+                                                  dialogType: DialogType.ERROR,
+                                                  body: const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(15),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Fail to save name',
+                                                          style: TextStyle(
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic),
+                                                        ),
+                                                      )),
+                                                  btnOkOnPress: () {},
+                                                  btnOkColor: Colors.red)
+                                              .show()
+                                        }
+                                      else
+                                        {
+                                          AwesomeDialog(
+                                                  context: context,
+                                                  animType: AnimType.SCALE,
+                                                  dialogType: DialogType.SUCCES,
+                                                  body: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              15),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Success to edit name',
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
                                                                   fontSize: 16,
                                                                   color: Colors
                                                                       .green)),
-                                                    ),
-                                                  )),
-                                              btnOkOnPress: () {
-                                                navigation.setPage =
-                                                    "Profile Page";
-                                                navigation.setName = value.name;
-                                              },
-                                              btnOkColor: Colors.green)
-                                          .show()
+                                                        ),
+                                                      )),
+                                                  btnOkOnPress: () {
+                                                    navigation.setPage =
+                                                        "Profile Page";
+                                                    navigation.setName =
+                                                        nameController.text;
+                                                  },
+                                                  btnOkColor: Colors.green)
+                                              .show()
+                                        }
                                     }
                                 });
                           },
