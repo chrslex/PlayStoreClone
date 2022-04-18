@@ -43,7 +43,7 @@ class AppWidget {
   static Future<List<App>> getAllAppsByName(int page, String name) async {
     final response = await http.get(Uri.parse(
         //CHANGE API ROUTE AND PARAMS LATER
-        route + "api/v1/product/apps?page=$page&page_size=5?search=$name"));
+        route + "api/v1/product/apps?search=$name&?page=$page&page_size=5&sort=descending"));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
