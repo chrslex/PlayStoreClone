@@ -7,6 +7,7 @@ import 'package:gerbang_app/screens/productDetails.dart';
 import 'package:gerbang_app/screens/profileScreen.dart';
 import 'package:gerbang_app/screens/searchResult.dart';
 import 'package:gerbang_app/widget/appBar.dart';
+import 'package:gerbang_app/widget/appWidget.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:gerbang_app/screens/editProfile.dart';
@@ -62,7 +63,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Owned Apps/Books") {
         return OwnedAppsOrBooks();
       } else {
-        return const EAppList();
+        return ExperimentalAppList();
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {
@@ -76,7 +77,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
         return OwnedAppsOrBooks();
       } 
       else {
-        return const EBookList();
+        return ExperimentalBookList();
       }
     }),
     Consumer<Navigation>(builder: (context, navigation, _) {

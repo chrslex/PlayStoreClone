@@ -5,12 +5,11 @@ import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/model/bookModel.dart';
 import 'package:gerbang_app/utils/mockReviewList.dart';
 import 'package:gerbang_app/utils/saveFiles.dart';
-import 'package:gerbang_app/widget/appWidget.dart';
-import 'package:gerbang_app/widget/bookWidget.dart';
+import 'package:gerbang_app/api/models/appApi.dart';
+import 'package:gerbang_app/api/models/bookApi.dart';
 import 'package:provider/provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sqflite/sqflite.dart';
 import '../utils/widgetUtils.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -72,7 +71,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       color: Colors.white))),
         ).onTap(() async {
           if(navigation.productType == "book"){
-            Book response = await BookWidget.getBooksById(
+            Book response = await BookApi.getBooksById(
                 navigation.productID!);
             await InstalledBooksAndAppsDatabase.instance
                 .createBook(response);
@@ -80,7 +79,7 @@ class _ProductDetailState extends State<ProductDetail> {
             setState(() {});
           }
           else{
-            App response = await AppWidget.getAppsById(navigation.productID!);
+            App response = await AppApi.getAppsById(navigation.productID!);
             await InstalledBooksAndAppsDatabase.instance.createApp(response);
             isInstall = true;
             setState(() {});

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../change_notifier/navigation.dart';
 
-class ProductWidget extends StatelessWidget {
+class ProductWidgetHorizontal extends StatelessWidget {
   final String? imgAsset;
   final String? title;
   final String? size;
@@ -14,7 +14,7 @@ class ProductWidget extends StatelessWidget {
   final String? productID;
   final int? downloadCount;
 
-  ProductWidget({Key? key, 
+  ProductWidgetHorizontal({Key? key, 
     required this.imgAsset,
     required this.title,
     required this.size,
@@ -51,7 +51,7 @@ class ProductWidget extends StatelessWidget {
           width: 150,
           padding: const EdgeInsets.only(
               top: 15.00, bottom: 15.00, left: 8, right: 4),
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.network(
@@ -62,26 +62,31 @@ class ProductWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(2.0),
               ),
-              Text(
-                title!,
-                maxLines: 1,
-                style: TextStyle(
-                  color: Color.fromRGBO(32, 33, 36, 1),
-                ),
-                overflow: TextOverflow.fade,
-                softWrap: false,
-              ),
-              Padding(
-                padding: EdgeInsets.all(2.0),
-              ),
-              Text(
-                size!,
-                maxLines: 1,
-                style: TextStyle(
-                    color: Color(0xff5f6368), fontSize: 12.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title!,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: Color.fromRGBO(32, 33, 36, 1),
+                    ),
                     overflow: TextOverflow.fade,
                     softWrap: false,
-              ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(2.0),
+                  ),
+                  Text(
+                    size!,
+                    maxLines: 1,
+                    style: TextStyle(
+                        color: Color(0xff5f6368), fontSize: 12.0),
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                  ),
+                ],
+              )
             ],
           ),
         ),

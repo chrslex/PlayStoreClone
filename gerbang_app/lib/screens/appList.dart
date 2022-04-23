@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/model/appModel.dart';
-import 'package:gerbang_app/widget/appWidget.dart';
+import 'package:gerbang_app/api/models/appApi.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
 import 'package:gerbang_app/widget/bookWidget.dart';
 
@@ -51,7 +51,7 @@ class _AppListState extends State<AppList> {
             Container(
               height: 200,
               child: FutureBuilder(
-                  future: AppWidget.getAllApps(1),
+                  future: AppApi.getAllApps(1),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<App>> snapshot) {
                     if (snapshot.hasData) {

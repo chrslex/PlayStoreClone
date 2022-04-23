@@ -16,6 +16,7 @@ class Navigation with ChangeNotifier {
   int? _selectedIndex = -1;
   String? _searchValue = "";
   int? _downloadCount = 0;
+  String _subcategory = "";
 
   String get page => _page;
   set setPage(String page) {
@@ -104,6 +105,12 @@ class Navigation with ChangeNotifier {
   int? get downloadCount => _downloadCount;
   set setDownloadCount(int? value){
     _downloadCount = value;
+    notifyListeners();
+  }
+
+  String get subcategory => _subcategory;
+  set setSubcategory(String subcategory) {
+    _subcategory = subcategory;
     notifyListeners();
   }
 }

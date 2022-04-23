@@ -133,7 +133,7 @@ class OwnedAppsFragmentState
                       itemBuilder: (context, index) {
                         return ListTile(
                           leading: Image.network(
-                                  installedBooks[index].Icon!,
+                                  "https://random.imagecdn.app/40/40",    //installedBooks[index].Icon!,
                                   fit: BoxFit.cover,
                                   height: 40,
                                   width: 40)

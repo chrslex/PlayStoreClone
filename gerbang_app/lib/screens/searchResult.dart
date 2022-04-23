@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/model/appModel.dart';
-import 'package:gerbang_app/widget/appWidget.dart';
-import 'package:gerbang_app/widget/bookWidget.dart';
+import 'package:gerbang_app/api/models/appApi.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import '../api/models/bookApi.dart';
 import '../change_notifier/navigation.dart';
 import '../model/bookModel.dart';
 
@@ -36,7 +36,7 @@ class SearchBooksState extends State<SearchBooks>{
     setState(() {
       isLoading = true;
     });
-    final response = await BookWidget.getAllBooksByName(page, widget.name);
+    final response = await BookApi.getAllBooksByName(page, widget.name);
     page += 1;
     data.addAll(response);
     setState(() {
@@ -112,7 +112,7 @@ class SearchAppsState extends State<SearchApps> {
     setState(() {
       isLoading = true;
     });
-    final response = await AppWidget.getAllAppsByName(page, widget.name);
+    final response = await AppApi.getAllAppsByName(page, widget.name);
     page += 1;
     data.addAll(response);
     setState(() {
