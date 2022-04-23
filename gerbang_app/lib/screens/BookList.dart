@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/widget/productWidget.dart';
-import 'package:gerbang_app/widget/bookWidget.dart';
+import 'package:gerbang_app/api/models/bookApi.dart';
 
 import 'package:gerbang_app/model/bookModel.dart';
 
@@ -69,7 +69,7 @@ class FutureContainer extends StatelessWidget {
     return Container(
       height: 200,
       child: FutureBuilder(
-          future: BookWidget.getAllBooks(page),
+          future: BookApi.getAllBooks(page),
           builder: (BuildContext context,
               AsyncSnapshot<List<Book>> snapshot) {
             if (snapshot.hasData) {

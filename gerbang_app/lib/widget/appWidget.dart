@@ -1,109 +1,77 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:gerbang_app/model/appModel.dart';
-import 'package:gerbang_app/api/models/const.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
-class AppWidget {
-  static Future<List<App>> getAllApps(int page) async {
-    final response = await http.get(Uri.parse(
-        route + "api/v1/product/apps?page=$page&page_size=5"));
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      var data = jsonDecode(response.body);
-      List<App> l = [];
-      for (var d in data["data"]["items"]) {
-        var subcatJson = d["subcategories"] as List;
-        List<String> _subcat = subcatJson.map((e) => e as String).toList();
-        l.add(App(
-          ID: d["id"],
-          Title: d["title"],
-          Description: d["description"],
-          Developer: d["developer"],
-          Age: d["age"],
-          Size: d["size"],
-          Icon: d["icon"],
-          File: d["file"],
-          Pending_status: d["pendingStatus"],
-          DownloadCount: d["downloadCount"],
-          Subcategories: _subcat,
-        ));
-      }
-      return l;
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load apps');
-    }
-  }
+import '../change_notifier/navigation.dart';
+import '../widget/productWidget.dart';
 
-  static Future<List<App>> getAllAppsByName(int page, String name) async {
-    final response = await http.get(Uri.parse(
-        //CHANGE API ROUTE AND PARAMS LATER
-        route + "api/v1/product/apps?search=$name&?page=$page&page_size=5&sort=descending"));
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      var data = jsonDecode(response.body);
-      List<App> l = [];
-      for (var d in data["data"]["items"]) {
-        var subcatJson = d["subcategories"] as List;
-        List<String> _subcat = subcatJson.map((e) => e as String).toList();
-        l.add(App(
-          ID: d["id"],
-          Title: d["title"],
-          Description: d["description"],
-          Developer: d["developer"],
-          Age: d["age"],
-          Size: d["size"],
-          Icon: d["icon"],
-          File: d["file"],
-          Pending_status: d["pendingStatus"],
-          DownloadCount: d["downloadCount"],
-          Subcategories: _subcat,
-        ));
-      }
-      return l;
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load apps');
-    }
-  }
+class IndividualAppList extends StatelessWidget {
+  final String subcategory;
+  final List<App> apps;
+  const IndividualAppList({
+    Key? key,
+    required this.subcategory,
+    required this.apps,
+  }) : super(key: key);
 
-  static Future<App> getAppsById(String id) async {
-    final response = await http
-        .get(Uri.parse(route + "api/v1/product/apps/$id"));
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      var data = jsonDecode(response.body);
-      List<App> l = [];
-      var subcatJson =
-          data["data"]["subcategories"] as List;
-      List<String> _subcat =
-          subcatJson.map((e) => e as String).toList();
-      l.add(App(
-        ID: data["data"]["id"],
-        Title: data["data"]["title"],
-        Description: data["data"]["description"],
-        Developer: data["data"]["developer"],
-        Age: data["data"]["age"],
-        Size: data["data"]["size"],
-        Icon: data["data"]["icon"],
-        File: data["data"]["file"],
-        Pending_status: data["data"]["pendingStatus"],
-        DownloadCount: data["data"]["downloadCount"],
-        Subcategories: _subcat,
-      ));
-      return l[0];
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load app');
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Navigation>(
+      builder: (context, navigation, _) =>
+      Column(children: [
+        Container(
+          child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                16.height,
+                InkWell(
+                  onTap: () {
+                    navigation.setShowAppBar = false;
+                    navigation.setSubcategory = subcategory;
+                    navigation.setPage = "Explore Apps";
+                  },
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        subcategory,
+                        style: boldTextStyle(size: 18),
+                      ),
+                      const Icon(Icons.arrow_forward_rounded),
+                    ],
+                  ).paddingOnly(left: 16, right: 16),
+                ),
+                16.height,
+                SingleChildScrollView(
+                  padding: const EdgeInsets.only(
+                      left: 8, right: 8),
+                  child: Row(
+                      children: apps.length != 0 ? apps.map((App b) {
+                    return ProductWidget(
+                      imgAsset: b.Icon,
+                      title: b.Title,
+                      size: b.Size.toString(),
+                      type: "app",
+                      description: b.Description,
+                      productID: b.ID,
+                      downloadCount: b.DownloadCount
+                    );
+                  }).toList() : [
+                    Container(
+                      child: Center(
+                        child: Text("No Apps Available"),
+                      ),
+                    )
+                  ]
+                  ),
+                  scrollDirection: Axis.horizontal,
+                )
+              ]),
+        ),
+      ]).paddingBottom(16),
+    );
   }
 }

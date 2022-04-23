@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/model/appModel.dart';
-import 'package:gerbang_app/widget/appWidget.dart';
-import 'package:gerbang_app/widget/bookWidget.dart';
-import 'package:gerbang_app/widget/productWidget.dart';
+import 'package:gerbang_app/api/models/appApi.dart';
+import 'package:gerbang_app/api/models/bookApi.dart';
+import 'package:gerbang_app/widget/productWidgetHorizontal.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -26,15 +26,15 @@ class ExploreBooksState extends State<ExploreBooks> {
 
   @override
   void initState() {
-    _loadMore();
+    // _loadMore();
     super.initState();
   }
 
-  Future<void> _loadMore() async {
+  Future<void> _loadMore(String subcategory) async {
     setState(() {
       isLoading = true;
     });
-    final response = await BookWidget.getAllBooks(page);
+    final response = await BookApi.getBooksBySubcategory(subcategory, page);
     page += 1;
     data.addAll(response);
     setState(() {
@@ -46,11 +46,11 @@ class ExploreBooksState extends State<ExploreBooks> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Scaffold(
+      child: Consumer<Navigation>(
+        builder: (context, navigation, _) => Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFF01875f),
-          leading: Consumer<Navigation>(
-            builder: (context, navigation, _) => IconButton(
+          leading:IconButton(
               icon: const Icon(Icons.arrow_back,
                   color: Colors.black),
               onPressed: () {
@@ -58,16 +58,15 @@ class ExploreBooksState extends State<ExploreBooks> {
                 navigation.setPage = "App/Book List";
               },
             ),
-          ),
-          title: Text("Explore All Products",
+          title: Text(navigation.subcategory,
               style: boldTextStyle()),
         ),
         body: LazyLoadScrollView(
-          onEndOfPage: () => _loadMore(),
+          onEndOfPage: () => _loadMore(navigation.subcategory),
           child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, position) {
-              return ProductWidget(
+              return ProductWidgetHorizontal(
                 imgAsset: data[position].Cover,
                 title: data[position].Title,
                 size: data[position].Total_pages.toString(),
@@ -80,6 +79,7 @@ class ExploreBooksState extends State<ExploreBooks> {
           ),
         ),
       ),
+      )
     );
   }
 }
@@ -100,15 +100,15 @@ class ExploreAppsState extends State<ExploreApps> {
 
   @override
   void initState() {
-    _loadMore();
+    //_loadMore();
     super.initState();
   }
 
-  Future<void> _loadMore() async {
+  Future<void> _loadMore(String subcategory) async {
     setState(() {
       isLoading = true;
     });
-    final response = await AppWidget.getAllApps(page);
+    final response = await AppApi.getAppsBySubcategory(subcategory, page);
     page += 1;
     data.addAll(response);
     setState(() {
@@ -120,11 +120,11 @@ class ExploreAppsState extends State<ExploreApps> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Scaffold(
+      child: Consumer<Navigation>(
+        builder: (context, navigation, _) => Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFF01875f),
-          leading: Consumer<Navigation>(
-            builder: (context, navigation, _) => IconButton(
+          leading:IconButton(
               icon: const Icon(Icons.arrow_back,
                   color: Colors.black),
               onPressed: () {
@@ -132,25 +132,25 @@ class ExploreAppsState extends State<ExploreApps> {
                 navigation.setPage = "App/Book List";
               },
             ),
-          ),
-          title: Text("Explore All Products",
+          title: Text(navigation.subcategory,
               style: boldTextStyle()),
         ),
         body: LazyLoadScrollView(
-          onEndOfPage: () => _loadMore(),
-          child: ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, position) {
-              return ProductWidget(
-                imgAsset: data[position].Icon,
-                title: data[position].Title,
-                size: data[position].Size,
-                type: "app",
-                description: data[position].Description,
-                productID: data[position].ID,
-                downloadCount: data[position].DownloadCount,
-              );
-            },
+            onEndOfPage: () => _loadMore(navigation.subcategory),
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, position) {
+                return ProductWidgetHorizontal(
+                  imgAsset: data[position].Icon,
+                  title: data[position].Title,
+                  size: data[position].Size,
+                  type: "app",
+                  description: data[position].Description,
+                  productID: data[position].ID,
+                  downloadCount: data[position].DownloadCount,
+                );
+              },
+            ),
           ),
         ),
       ),
