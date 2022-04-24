@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/api/models/appApi.dart';
-import 'package:gerbang_app/widget/productWidget.dart';
+import 'package:gerbang_app/widget/productWidgetHorizontal.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +37,10 @@ class SearchBooksState extends State<SearchBooks>{
       isLoading = true;
     });
     final response = await BookApi.getAllBooksByName(page, widget.name);
+    final responseSubcat = await BookApi.getBooksBySubcategory(widget.name, page);
     page += 1;
     data.addAll(response);
+    data.addAll(responseSubcat);
     setState(() {
       isLoading = false;
       currentLength = data.length;
@@ -69,7 +71,7 @@ class SearchBooksState extends State<SearchBooks>{
           child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, position) {
-              return ProductWidget(
+              return ProductWidgetHorizontal(
                 imgAsset: data[position].Cover,
                 title: data[position].Title,
                 size: data[position].Total_pages.toString(),
@@ -113,8 +115,10 @@ class SearchAppsState extends State<SearchApps> {
       isLoading = true;
     });
     final response = await AppApi.getAllAppsByName(page, widget.name);
+    final responseSubcat = await AppApi.getAppsBySubcategory(widget.name, page);
     page += 1;
     data.addAll(response);
+    data.addAll(responseSubcat);
     setState(() {
       isLoading = false;
       currentLength = data.length;
@@ -145,7 +149,7 @@ class SearchAppsState extends State<SearchApps> {
           child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, position) {
-              return ProductWidget(
+              return ProductWidgetHorizontal(
                 imgAsset: data[position].Icon,
                 title: data[position].Title,
                 size: data[position].Size,
