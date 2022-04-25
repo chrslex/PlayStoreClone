@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_validator/form_validator.dart';
 
 class EmailWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -15,24 +16,29 @@ class EmailWidget extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
               ]),
           height: 60,
-          child: TextField(
-            controller: controller,
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.black87),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 12),
-              prefixIcon: Icon(
-                Icons.email,
-                color: Color(0xff5ac18e),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: controller,
+              keyboardType: TextInputType.emailAddress,
+              style: const TextStyle(color: Colors.black87),
+              validator: ValidationBuilder().email("Wrong email format!").build(),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 12),
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Color(0xff5ac18e),
+                ),
+                hintText: 'Enter your email',
+                hintStyle: TextStyle(color: Colors.black54),
               ),
-              hintText: 'Enter your email',
-              hintStyle: TextStyle(color: Colors.black54),
             ),
           ),
         )
