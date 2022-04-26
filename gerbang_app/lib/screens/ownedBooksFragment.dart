@@ -132,8 +132,7 @@ class OwnedBookFragmentState
                       itemBuilder: (context, index) {
                         return ListTile(
                           leading: Image.network(
-                                  installedBooks[index]
-                                      .Cover!,
+                                  "https://random.imagecdn.app/40/40",
                                   fit: BoxFit.cover,
                                   height: 40,
                                   width: 40)

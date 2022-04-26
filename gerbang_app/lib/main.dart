@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gerbang_app/screens/experimentalAppList.dart';
 import 'package:gerbang_app/screens/experimentalBookList.dart';
 import 'package:gerbang_app/screens/exploreAllProducts.dart';
@@ -20,23 +21,56 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _storage = const FlutterSecureStorage();
+
+  Future<Map<String, String>> getAllValues() async {
+    Map<String, String> allValues =
+        await _storage.readAll();
+    return allValues;
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: ChangeNotifierProvider<Navigation>(
-            create: (context) => Navigation(),
-            child: Consumer<Navigation>(builder: (context, navigation, _) {
-              if (navigation.page == "Login") {
-                return const LoginScreen();
-              } else if (navigation.page == "Register") {
-                return const RegisterScreen();
-              } else {
-                return const MyHomePage();
-              }
-            })));
+      home: ChangeNotifierProvider<Navigation>(
+          create: (context) => Navigation(),
+          child: Consumer<Navigation>(
+              builder: (context, navigation, _) {
+            return FutureBuilder(
+                future: getAllValues(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<Map<String, String>>
+                        snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!["Log In Status"] ==
+                        "true") {
+                      // navigation.setPage = "Home Page";
+                      return const MyHomePage();
+                    }
+                    if (navigation.page == "Login" ||
+                        snapshot.data!["name"] == "false") {
+                      return const LoginScreen();
+                    } else if (navigation.page ==
+                        "Register") {
+                      return const RegisterScreen();
+                    } else {
+                      return const MyHomePage();
+                    }
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                });
+          })),
+    );
   }
 }
 
@@ -44,7 +78,8 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyStatefulWidgetState();
+  State<MyHomePage> createState() =>
+      _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyHomePage> {
@@ -59,7 +94,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Explore Apps") {
         return ExploreApps();
       } else if (navigation.page == "Search Apps") {
-        return SearchApps(name:navigation.searchValue!);
+        return SearchApps(name: navigation.searchValue!);
       } else if (navigation.page == "Owned Apps/Books") {
         return OwnedAppsOrBooks();
       } else {
@@ -72,11 +107,10 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Explore Books") {
         return ExploreBooks();
       } else if (navigation.page == "Search Books") {
-        return SearchBooks(name:navigation.searchValue!);
-      } else if(navigation.page == "Owned Apps/Books"){
+        return SearchBooks(name: navigation.searchValue!);
+      } else if (navigation.page == "Owned Apps/Books") {
         return OwnedAppsOrBooks();
-      } 
-      else {
+      } else {
         return ExperimentalBookList();
       }
     }),
@@ -86,7 +120,7 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
       } else if (navigation.page == "Search Apps") {
         return SearchApps(name: navigation.searchValue!);
       } else if (navigation.page == "Search Books") {
-        return SearchBooks(name:navigation.searchValue!);
+        return SearchBooks(name: navigation.searchValue!);
       } else if (navigation.page == "Owned Apps/Books") {
         return OwnedAppsOrBooks();
       } else {
@@ -107,7 +141,8 @@ class _MyStatefulWidgetState extends State<MyHomePage> {
                   : null,
               body: Container(
                 margin: const EdgeInsets.only(top: 10),
-                child: _widgetOptions.elementAt(_selectedIndex),
+                child: _widgetOptions
+                    .elementAt(_selectedIndex),
               ),
               drawer: DrawerGerbang(),
               bottomNavigationBar: BottomNavigationBar(

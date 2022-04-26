@@ -12,6 +12,7 @@ class Navigation with ChangeNotifier {
   String? _productDescription = "";
   String? _productID = "1";
   String? _productSize = "";
+  String? _productMinAge = "";
   bool _showAppBar = true;
   int? _selectedIndex = -1;
   String? _searchValue = "";
@@ -42,6 +43,7 @@ class Navigation with ChangeNotifier {
     notifyListeners();
   }
 
+
   String get token => _token;
   set setToken(String token) {
     _token = token;
@@ -51,6 +53,11 @@ class Navigation with ChangeNotifier {
   String? get productID => _productID;
   set productID(String? id) {
     _productID = id;
+    notifyListeners();
+  }
+  String? get productMinAge => _productMinAge;
+  set productMinAge(String? age) {
+    _productMinAge = age;
     notifyListeners();
   }
 
