@@ -9,13 +9,15 @@ import 'package:provider/provider.dart';
 import '../change_notifier/navigation.dart';
 
 class OwnedAppsOrBooks extends StatefulWidget {
-  OwnedAppsOrBooks({ Key? key }) : super(key: key);
+  OwnedAppsOrBooks({Key? key}) : super(key: key);
 
   @override
-  State<OwnedAppsOrBooks> createState() => _OwnedAppsOrBooksState();
+  State<OwnedAppsOrBooks> createState() =>
+      _OwnedAppsOrBooksState();
 }
 
-class _OwnedAppsOrBooksState extends State<OwnedAppsOrBooks> {
+class _OwnedAppsOrBooksState
+    extends State<OwnedAppsOrBooks> {
   @override
   void initState() {
     super.initState();
@@ -37,28 +39,30 @@ class _OwnedAppsOrBooksState extends State<OwnedAppsOrBooks> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('My apps & books',
+          title: Text('Owned Apps/Books',
               style: boldTextStyle()),
           backgroundColor: Colors.white,
           elevation: 0,
           leading: Consumer<Navigation>(
             builder: (context, navigation, _) =>
-                ElevatedButton.icon(
-                    label: const Text(''),
-                    icon: const Icon(
-                      Icons.arrow_back_sharp,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      navigation.setShowAppBar = true;
-                      navigation.setPage =
-                          navigation.productType == "app"
-                              ? "App List"
-                              : "Book List";
-                    },
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        primary: Colors.transparent)),
+                Row(children: [
+              ElevatedButton.icon(
+                  label: const Text(''),
+                  icon: const Icon(
+                    Icons.arrow_back_sharp,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    navigation.setShowAppBar = true;
+                    navigation.setPage =
+                        navigation.productType == "app"
+                            ? "App List"
+                            : "Book List";
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Colors.transparent)),
+            ]),
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(40),

@@ -216,7 +216,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     CrossAxisAlignment.start,
                 children: [
                   Image.network(
-                          "https://random.imagecdn.app/80/80",
+                          navigation.productCover!,
                           height: 80,
                           width: 80,
                           fit: BoxFit.cover)
@@ -350,12 +350,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   ;
                 },
                 child: Row(
-                  children: [
-                    Text('You might also like',
-                            style: boldTextStyle())
-                        .expand(),
-                    Icon(Icons.arrow_forward_rounded),
-                  ],
                 ).paddingOnly(left: 16, right: 16),
               ),
               12.height,
@@ -862,10 +856,15 @@ class _ProductDetailState extends State<ProductDetail> {
                           Text('Address',
                               style: primaryTextStyle(
                                   size: 15)),
-                          Text(
-                              'Bukit Algoritma Jl. Cisuba, Taman Sari, Kec. Cikidang, Kabupaten Sukabumi, Jawa Barat 43367',
-                              style: secondaryTextStyle(
-                                  size: 12)),
+                          Container(
+                            width: 300,
+                            child: Text(
+                                'Bukit Algoritma Jl. Cisuba, Taman Sari, Kec. Cikidang, Kabupaten Sukabumi, Jawa Barat 43367',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: secondaryTextStyle(
+                                    size: 12)),
+                          ),
                         ],
                       ),
                     ],
@@ -888,16 +887,10 @@ class _ProductDetailState extends State<ProductDetail> {
                   .paddingOnly(left: 16, right: 16),
               16.height,
               Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.refresh_outlined),
-                    onPressed: () {},
-                  ),
-                  Text('App refund policy',
-                      style: boldTextStyle()),
+                children: const [
                 ],
               ),
-              16.height,
+              12.height,
               Text('All price include PPN.',
                       style: primaryTextStyle())
                   .paddingAll(16),
