@@ -57,7 +57,8 @@ class IndividualAppList extends StatelessWidget {
                       type: "app",
                       description: b.Description,
                       productID: b.ID,
-                      downloadCount: b.DownloadCount
+                      downloadCount: b.DownloadCount,
+                      minAge: b.Age,
                     );
                   }).toList() : [
                     Container(

@@ -5,6 +5,7 @@ import 'package:gerbang_app/widget/auth/email_widget.dart';
 import 'package:gerbang_app/widget/auth/password_widget.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../change_notifier/navigation.dart';
 
@@ -36,7 +37,7 @@ Widget buildForgotPassBtn() {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
+  final _storage = const FlutterSecureStorage();
   GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   void validate(){
@@ -107,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onPressed: () {
                                       Login.loginUser(emailController.text,
                                           passwordController.text)
-                                          .then((value) =>
+                                          .then((value) async =>
                                       {
                                         if (value.code != 200)
                                           {
@@ -134,15 +135,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                           }
                                         else {
                                           navigation.setId = value.id,
+                                          await _storage.write(key: "id", value: value.id),
                                           navigation.setName = value.name,
+                                          await _storage.write(key: "name", value: value.name),
                                           navigation.setEmail = value.email,
+                                          await _storage.write(key: "email", value: value.email),
                                           navigation.setToken = value.token,
-                                          navigation.setPage = "Profile Page",
+                                          await _storage.write(key: "token", value: value.token),
+                                          await _storage.write(key: "Log In Status", value: "true"),
+                                          navigation.setPage = "Home Page",
                                           navigation.selectedIndex = 0,
                                           if (value.name == "") {
-                                            navigation.setName = value.email
+                                            navigation.setName = value.email,
+                                            await _storage.write(key: "name", value: value.email),
+                                            
                                           }
-                                        }
+                                        },
                                       });
                                     },
                                     child: const Text('LOGIN',

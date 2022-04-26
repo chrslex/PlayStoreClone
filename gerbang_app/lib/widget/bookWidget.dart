@@ -55,10 +55,11 @@ class IndividualBookList extends StatelessWidget {
                       imgAsset: b.Cover,
                       title: b.Title,
                       size: b.Total_pages.toString(),
-                      type: "app",
+                      type: "book",
                       description: b.Description,
                       productID: b.ID,
-                      downloadCount: b.DownloadCount
+                      downloadCount: b.DownloadCount,
+                      minAge: "All ages",
                     );
                   }).toList() : [
                     Container(

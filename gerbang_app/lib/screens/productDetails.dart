@@ -292,7 +292,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           children: [
                             Icon(Icons.add_box_rounded,
                                 size: 20),
-                            Text('Rated for 3+',
+                            Text('Rated for ${navigation.productMinAge}',
                                 style:
                                     secondaryTextStyle()),
                           ],
