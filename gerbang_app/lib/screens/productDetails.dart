@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:gerbang_app/api/models/const.dart';
 import 'package:gerbang_app/change_notifier/navigation.dart';
 import 'package:gerbang_app/model/appModel.dart';
 import 'package:gerbang_app/model/bookModel.dart';
@@ -10,6 +11,7 @@ import 'package:gerbang_app/api/models/bookApi.dart';
 import 'package:provider/provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 import '../utils/widgetUtils.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -36,9 +38,14 @@ class _ProductDetailState extends State<ProductDetail> {
     productID =
         Provider.of<Navigation>(context, listen: false)
             .productID;
-    productType = Provider.of<Navigation>(context, listen: false).productType;
-    isInstall = productType == "book" ? await InstalledBooksAndAppsDatabase.instance
-        .checkBookExist(productID!) : await InstalledBooksAndAppsDatabase.instance.checkAppExist(productID!);
+    productType =
+        Provider.of<Navigation>(context, listen: false)
+            .productType;
+    isInstall = productType == "book"
+        ? await InstalledBooksAndAppsDatabase.instance
+            .checkBookExist(productID!)
+        : await InstalledBooksAndAppsDatabase.instance
+            .checkAppExist(productID!);
   }
 
   @override
@@ -58,6 +65,24 @@ class _ProductDetailState extends State<ProductDetail> {
 
     List<Review> reviewList = getReviewList();
 
+    Future<bool> incrementDownloadApp() async {
+      final response = await http.get(Uri.parse(
+          route + "api/v1/product/apps/downloads/$productID"));
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    }
+
+    Future<bool> incrementDownloadBook() async {
+      final response = await http.get(Uri.parse(
+          route + "api/v1/product/books/downloads/$productID"));
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    }
+
     Widget installButton() {
       return Consumer<Navigation>(
         builder: (context, navigation, _) => Container(
@@ -70,21 +95,39 @@ class _ProductDetailState extends State<ProductDetail> {
                   style: primaryTextStyle(
                       color: Colors.white))),
         ).onTap(() async {
-          if(navigation.productType == "book"){
+          if (navigation.productType == "book") {
             Book response = await BookApi.getBooksById(
                 navigation.productID!);
             await InstalledBooksAndAppsDatabase.instance
                 .createBook(response);
-            isInstall = true;
+            bool isDownloaded =
+                await incrementDownloadBook();
+
+            print(isDownloaded);
+
+            if (isDownloaded) {
+              isInstall = true;
+              navigation.setDownloadCount =
+                  navigation.downloadCount! + 1;
+            }
+            setState(() {});
+          } else {
+            App response = await AppApi.getAppsById(
+                navigation.productID!);
+            await InstalledBooksAndAppsDatabase.instance
+                .createApp(response);
+            bool isDownloaded =
+                await incrementDownloadApp();
+
+            print(isDownloaded);
+
+            if (isDownloaded) {
+              isInstall = true;
+              navigation.setDownloadCount =
+                  navigation.downloadCount! + 1;
+            }
             setState(() {});
           }
-          else{
-            App response = await AppApi.getAppsById(navigation.productID!);
-            await InstalledBooksAndAppsDatabase.instance.createApp(response);
-            isInstall = true;
-            setState(() {});
-          }
-          
         }),
       );
     }
@@ -122,8 +165,10 @@ class _ProductDetailState extends State<ProductDetail> {
           ],
         ),
       ).paddingOnly(left: 18, right: 18).onTap(() async {
-        await InstalledBooksAndAppsDatabase.instance.deleteApp(productID!);
-        await InstalledBooksAndAppsDatabase.instance.deleteBook(productID!);
+        await InstalledBooksAndAppsDatabase.instance
+            .deleteApp(productID!);
+        await InstalledBooksAndAppsDatabase.instance
+            .deleteBook(productID!);
         setState(() {
           isInstall = false;
         });
@@ -215,8 +260,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 crossAxisAlignment:
                     CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                          navigation.productCover!,
+                  Image.network(navigation.productCover!,
                           height: 80,
                           width: 80,
                           fit: BoxFit.cover)
@@ -292,7 +336,8 @@ class _ProductDetailState extends State<ProductDetail> {
                           children: [
                             Icon(Icons.add_box_rounded,
                                 size: 20),
-                            Text('Rated for ${navigation.productMinAge}',
+                            Text(
+                                'Rated for ${navigation.productMinAge}',
                                 style:
                                     secondaryTextStyle()),
                           ],
@@ -310,7 +355,8 @@ class _ProductDetailState extends State<ProductDetail> {
                           children: [
                             // Change to downloads atrributes from backend
                             Text(
-                                '${randomNumber.nextInt(100) + 30}K',
+                                navigation.downloadCount!
+                                    .toString(),
                                 style: boldTextStyle(
                                     size: 14)),
                             2.height,
@@ -326,9 +372,13 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
               32.height,
               FutureBuilder<bool>(
-                  future: navigation.productType == "book" ? InstalledBooksAndAppsDatabase
-                      .instance
-                      .checkBookExist(productID!) : InstalledBooksAndAppsDatabase.instance.checkAppExist(productID!),
+                  future: navigation.productType == "book"
+                      ? InstalledBooksAndAppsDatabase
+                          .instance
+                          .checkBookExist(productID!)
+                      : InstalledBooksAndAppsDatabase
+                          .instance
+                          .checkAppExist(productID!),
                   builder: (BuildContext context,
                       AsyncSnapshot<bool> snapshot) {
                     if (snapshot.hasData) {
@@ -349,8 +399,8 @@ class _ProductDetailState extends State<ProductDetail> {
                   );
                   ;
                 },
-                child: Row(
-                ).paddingOnly(left: 16, right: 16),
+                child:
+                    Row().paddingOnly(left: 16, right: 16),
               ),
               12.height,
               // Soon will be filled with apps/books with the same category
@@ -861,7 +911,8 @@ class _ProductDetailState extends State<ProductDetail> {
                             child: Text(
                                 'Bukit Algoritma Jl. Cisuba, Taman Sari, Kec. Cikidang, Kabupaten Sukabumi, Jawa Barat 43367',
                                 maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
+                                overflow:
+                                    TextOverflow.ellipsis,
                                 style: secondaryTextStyle(
                                     size: 12)),
                           ),
@@ -887,8 +938,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   .paddingOnly(left: 16, right: 16),
               16.height,
               Row(
-                children: const [
-                ],
+                children: const [],
               ),
               12.height,
               Text('All price include PPN.',
