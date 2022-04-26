@@ -55,7 +55,7 @@ class ProductWidgetHorizontal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.network(
-                "https://random.imagecdn.app/100/100", // TO DO: replace with imgAsset
+                imgAsset!, // TO DO: replace with imgAsset
                 height: 100.0,
                 width: 100.0,
               ),
