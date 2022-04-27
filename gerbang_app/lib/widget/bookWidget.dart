@@ -20,11 +20,10 @@ class IndividualBookList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Navigation>(
       builder: (context, navigation, _) =>
-      Column(children: [
+          Column(children: [
         Container(
           child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 16.height,
                 InkWell(
@@ -41,7 +40,8 @@ class IndividualBookList extends StatelessWidget {
                         subcategory,
                         style: boldTextStyle(size: 18),
                       ),
-                      const Icon(Icons.arrow_forward_rounded),
+                      const Icon(
+                          Icons.arrow_forward_rounded),
                     ],
                   ).paddingOnly(left: 16, right: 16),
                 ),
@@ -50,25 +50,34 @@ class IndividualBookList extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       left: 8, right: 8),
                   child: Row(
-                      children: books.length != 0 ? books.map((Book b) {
-                    return ProductWidget(
-                      imgAsset: b.Cover,
-                      title: b.Title,
-                      size: b.Total_pages.toString(),
-                      type: "book",
-                      description: b.Description,
-                      productID: b.ID,
-                      downloadCount: b.DownloadCount,
-                      minAge: "All ages",
-                    );
-                  }).toList() : [
-                    Container(
-                      child: Center(
-                        child: Text("No Books Available"),
-                      ),
-                    )
-                  ]
-                  ),
+                      children: books.length != 0
+                          ? books.map((Book b) {
+                              return ProductWidget(
+                                imgAsset: b.Cover,
+                                title: b.Title,
+                                size: b.Total_pages
+                                        .toString() +
+                                    " Page(s)",
+                                type: "book",
+                                description: b.Description,
+                                productID: b.ID,
+                                downloadCount:
+                                    b.DownloadCount,
+                                minAge: "All ages",
+                                developer: b.Author,
+                                subcategory:
+                                    b.Subcategories.join(
+                                        " "),
+                              );
+                            }).toList()
+                          : [
+                              Container(
+                                child: Center(
+                                  child: Text(
+                                      "No Books Available"),
+                                ),
+                              )
+                            ]),
                   scrollDirection: Axis.horizontal,
                 )
               ]),

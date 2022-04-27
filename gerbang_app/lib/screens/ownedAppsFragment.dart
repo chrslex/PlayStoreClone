@@ -96,7 +96,7 @@ class OwnedAppsFragmentState
                   mainAxisAlignment:
                       MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('On this device ($maxItemCount)',
+                    Text('On this device',
                         style: boldTextStyle(size: 18)),
                     Row(
                       children: [
@@ -163,12 +163,6 @@ class OwnedAppsFragmentState
                                         3),
                                 border: Border.all(
                                     color: Colors.grey)),
-                            child: FlatButton(
-                                child: Text('Open',
-                                    style: TextStyle(
-                                        color: Color(
-                                            0xFF01875f))),
-                                onPressed: () {}),
                           ),
                         );
                       },

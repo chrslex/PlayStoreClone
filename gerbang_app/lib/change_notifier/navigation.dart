@@ -13,6 +13,8 @@ class Navigation with ChangeNotifier {
   String? _productID = "1";
   String? _productSize = "";
   String? _productMinAge = "";
+  String? _productSubcategories = "";
+  String? _productDev = "";
   bool _showAppBar = true;
   int? _selectedIndex = -1;
   String? _searchValue = "";
@@ -61,9 +63,21 @@ class Navigation with ChangeNotifier {
     notifyListeners();
   }
 
+  String? get productAllSubcategory => _productSubcategories;
+  set productAllSubcategory(String? subcategories) {
+    _productSubcategories = subcategories;
+    notifyListeners();
+  }
+
   String? get productName => _productName;
   set productName(String? name){
     _productName = name;
+    notifyListeners();
+  }
+
+  String? get productDev => _productDev;
+  set productDev(String? dev) {
+    _productDev = dev;
     notifyListeners();
   }
 

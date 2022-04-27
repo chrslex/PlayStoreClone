@@ -59,6 +59,8 @@ class IndividualAppList extends StatelessWidget {
                       productID: b.ID,
                       downloadCount: b.DownloadCount,
                       minAge: b.Age,
+                      developer: b.Developer,
+                      subcategory: b.Subcategories.join(" "),
                     );
                   }).toList() : [
                     Container(
