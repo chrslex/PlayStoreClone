@@ -43,6 +43,7 @@ class _OwnedAppsOrBooksState
               style: boldTextStyle()),
           backgroundColor: Colors.white,
           elevation: 0,
+          leadingWidth: 65,
           leading: Consumer<Navigation>(
             builder: (context, navigation, _) =>
                 Row(children: [

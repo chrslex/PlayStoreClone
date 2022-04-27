@@ -51,7 +51,7 @@ class AppBarGerbangState extends State<AppBarGerbang> {
           8.width,
           TextFormField( //Search Bar
             showCursor: false,
-            decoration: InputDecoration(focusedBorder: InputBorder.none, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, hintText: 'Search for apps & games'),
+            decoration: InputDecoration(focusedBorder: InputBorder.none, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, hintText: 'Search for apps & books'),
             onFieldSubmitted: (String value){
               if (navigation.selectedIndex == 0){//seach apps
                 navigation.setPage = "Search Apps";

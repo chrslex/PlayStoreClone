@@ -66,8 +66,8 @@ class _ProductDetailState extends State<ProductDetail> {
     List<Review> reviewList = getReviewList();
 
     Future<bool> incrementDownloadApp() async {
-      final response = await http.get(Uri.parse(
-          route + "api/v1/product/apps/downloads/$productID"));
+      final response = await http.get(Uri.parse(route +
+          "api/v1/product/apps/downloads/$productID"));
       if (response.statusCode == 200) {
         return true;
       }
@@ -75,8 +75,8 @@ class _ProductDetailState extends State<ProductDetail> {
     }
 
     Future<bool> incrementDownloadBook() async {
-      final response = await http.get(Uri.parse(
-          route + "api/v1/product/books/downloads/$productID"));
+      final response = await http.get(Uri.parse(route +
+          "api/v1/product/books/downloads/$productID"));
       if (response.statusCode == 200) {
         return true;
       }
@@ -199,11 +199,11 @@ class _ProductDetailState extends State<ProductDetail> {
                         elevation: 0,
                         primary: Colors.transparent)),
           ),
-          260.width,
-          const Icon(
-            Icons.search,
-            color: Colors.black,
-          ),
+          285.width,
+          // const Icon(
+          //   Icons.search,
+          //   color: Colors.black,
+          // ),
           12.width,
           PopupMenuButton(
             onSelected: (dynamic value) {
@@ -274,7 +274,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           navigation.productName ??=
                               "ProductName",
                           style: boldTextStyle(size: 20)),
-                      Text("Soon filled with category",
+                      Text('${navigation.productAllSubcategory}',
                           style: secondaryTextStyle(
                               color: Color(0xFF01875f))),
                       Text("Contains ads In-app purchases",
@@ -317,13 +317,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 Icons.move_to_inbox_rounded,
                                 size: 22),
                             Text(
-                                navigation.productSize
-                                                .toString() +
-                                            navigation
-                                                .productType! ==
-                                        "app"
-                                    ? "MB"
-                                    : "Pages",
+                                navigation.productSize!,
                                 style: secondaryTextStyle(
                                     size: 12)),
                           ],
@@ -447,9 +441,8 @@ class _ProductDetailState extends State<ProductDetail> {
                 mainAxisAlignment:
                     MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('About this game',
+                  Text('About this ${navigation.productType}',
                       style: boldTextStyle()),
-                  Icon(Icons.arrow_forward_rounded),
                 ],
               )
                   .paddingOnly(left: 16, right: 16)
@@ -511,13 +504,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   )
                       .paddingOnly(left: 16, right: 16)
                       .expand(),
-                  Icon(Icons.arrow_forward_rounded)
-                      .onTap(() {
-                    // Will be filled with review screen
-
-                    // ReviewScreen(data1: widget.data)
-                    //     .launch(context);
-                  }).paddingRight(16),
                 ],
               ),
               16.height,
@@ -674,44 +660,9 @@ class _ProductDetailState extends State<ProductDetail> {
                 child: Row(
                   mainAxisAlignment:
                       MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text('Gameplay',
-                            style: primaryTextStyle(
-                                color: Colors.black45)),
-                        8.width,
-                        Text('4.1'),
-                        Icon(Icons.star, size: 10),
-                      ],
-                    ),
-                    40.width,
-                    Row(
-                      children: [
-                        Text('Graphics',
-                            style: primaryTextStyle(
-                                color: Colors.black45)),
-                        8.width,
-                        Text('4.0'),
-                        Icon(Icons.star, size: 10),
-                      ],
-                    ),
-                    40.width,
-                    Row(
-                      children: [
-                        Text('Control',
-                            style: primaryTextStyle(
-                                color: Colors.black45)),
-                        8.width,
-                        Text('4.0'),
-                        Icon(Icons.star, size: 10),
-                      ],
-                    ),
-                    30.height,
-                  ],
                 ),
               ),
-              30.height,
+              10.height,
               ListView.builder(
                   physics:
                       const NeverScrollableScrollPhysics(),
@@ -866,7 +817,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     children: [
                       Icon(Icons.adjust_rounded, size: 22),
                       18.width,
-                      Text('Website',
+                      Text(navigation.productDev!,
                           style:
                               primaryTextStyle(size: 15)),
                     ],
@@ -940,11 +891,11 @@ class _ProductDetailState extends State<ProductDetail> {
               Row(
                 children: const [],
               ),
-              12.height,
+              5.height,
               Text('All price include PPN.',
                       style: primaryTextStyle())
                   .paddingAll(16),
-              24.height,
+              12.height,
             ],
           ),
         ),

@@ -69,7 +69,7 @@ class ExploreBooksState extends State<ExploreBooks> {
               return ProductWidgetHorizontal(
                 imgAsset: data[position].Cover,
                 title: data[position].Title,
-                size: data[position].Total_pages.toString(),
+                size: data[position].Total_pages.toString() + " Page(s)",
                 type: "book",
                 description: data[position].Description,
                 productID: data[position].ID,

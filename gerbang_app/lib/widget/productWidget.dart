@@ -14,6 +14,8 @@ class ProductWidget extends StatelessWidget {
   final String? productID;
   final int? downloadCount;
   final String? minAge;
+  final String? developer;
+  final String? subcategory;
 
   ProductWidget({Key? key, 
     required this.imgAsset,
@@ -24,6 +26,8 @@ class ProductWidget extends StatelessWidget {
     required this.productID,
     required this.downloadCount,
     required this.minAge,
+    required this.developer,
+    required this.subcategory,
     }
   );
   @override
@@ -40,6 +44,8 @@ class ProductWidget extends StatelessWidget {
           navigation.productDescription = description;
           navigation.setDownloadCount = downloadCount;
           navigation.productMinAge = minAge;
+          navigation.productDev = developer;
+          navigation.productAllSubcategory =  subcategory;
 
           if(navigation.productType == "book"){
             navigation.setShowAppBar = false;
